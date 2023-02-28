@@ -104,34 +104,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>4.19.0</version>
-                <configuration>
-                    <changeLogFile>${basedir}/src/main/resources/db/master.xml</changeLogFile>
-                    <diffChangeLogFile>${basedir}/src/main/resources/db/${maven.build.timestamp}_changelog.xml
-                    </diffChangeLogFile>
-                    <outputChangeLogFile>${basedir}/src/main/resources/db/expsChangelog.xml</outputChangeLogFile>
-
-                    <url>
-                        jdbc:mysql://rw-test-website-01.cspipudysx5o.us-east-2.rds.amazonaws.com:3306/rwws_test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8
-                    </url>
-                    <username>rwweb</username>
-                    <password>RwWeb2023</password>
-
-                    <dropFirst>false</dropFirst>
-                    <defaultSchemaName/>
-                    <referenceUrl>
-                        hibernate:spring:com.rwws.rwserver.domain?dialect=org.hibernate.dialect.MySQL8Dialect
-                    </referenceUrl>
-                    <verbose>true</verbose>
-                    <logging>debug</logging>
-                    <promptOnNonLocalDatabase>true</promptOnNonLocalDatabase>
-                    <outputFileEncoding>UTF-8</outputFileEncoding>
-                    <verbose>true</verbose>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
