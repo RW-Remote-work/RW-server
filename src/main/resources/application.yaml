@@ -10,3 +10,13 @@ spring:
 mybatis-plus:
   global-config:
     banner: false
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    path: /api/api-docs
+  swagger-ui:
+    path: /api/swagger-ui.html
+    csrf:
+      enabled: true
+    disable-swagger-default-url: true
