@@ -1,5 +1,6 @@
 package com.rwws.rwserver.exception;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.zalando.problem.AbstractThrowableProblem;
 
 import java.net.URI;
@@ -11,7 +12,7 @@ public class BadRequestProblem extends AbstractThrowableProblem {
         super(null, null, BAD_REQUEST, BAD_REQUEST.getReasonPhrase());
     }
 
-    public BadRequestProblem(URI type, String title) {
+    public BadRequestProblem(@Nullable URI type, @Nullable String title) {
         super(type, title, BAD_REQUEST, BAD_REQUEST.getReasonPhrase());
     }
 }
