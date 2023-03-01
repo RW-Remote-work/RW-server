@@ -10,6 +10,8 @@ spring:
 mybatis-plus:
   global-config:
     banner: false
+    db-config:
+      id-type: assign_id
 springdoc:
   api-docs:
     groups:
@@ -20,3 +22,5 @@ springdoc:
     csrf:
       enabled: true
     disable-swagger-default-url: true
+application:
+  super-admin-password: Z2D%GP#$Z8b%@KEm
