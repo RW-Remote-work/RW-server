@@ -12,7 +12,7 @@ public class BadRequestProblem extends AbstractThrowableProblem {
         super(null, null, BAD_REQUEST, BAD_REQUEST.getReasonPhrase());
     }
 
-    public BadRequestProblem(@Nullable URI type, @Nullable String title) {
+    public BadRequestProblem(@Nullable URI type, String title) {
         super(type, title, BAD_REQUEST, BAD_REQUEST.getReasonPhrase());
     }
 }

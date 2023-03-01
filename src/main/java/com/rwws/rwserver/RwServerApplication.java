@@ -1,5 +1,6 @@
 package com.rwws.rwserver;
 
+import com.rwws.rwserver.exception.BadRequestProblem;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class RwServerApplication {
     public static void main(String[] args) {
+        new BadRequestProblem(null, null);
         SpringApplication.run(RwServerApplication.class, args);
     }
 }
