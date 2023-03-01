@@ -1,30 +1,29 @@
 package com.rwws.rwserver.security;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rwws.rwserver.config.ApplicationProperties;
 import com.rwws.rwserver.domain.security.User;
+import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-import com.rwws.rwserver.mapper.security.UserMapper;
+import com.rwws.rwserver.mapper.UserAuthorityMapper;
+import com.rwws.rwserver.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class DomainUserDetailsService implements UserDetailsService {
-    private final ApplicationProperties properties;
     private final UserMapper userMapper;
-    private final PasswordEncoder encoder;
+    private final UserAuthorityMapper userAuthorityMapper;
 
-    public DomainUserDetailsService(ApplicationProperties properties,
-                                    UserMapper userMapper,
-                                    PasswordEncoder encoder) {
-        this.properties = properties;
+    public DomainUserDetailsService(UserMapper userMapper,
+                                    UserAuthorityMapper userAuthorityMapper) {
         this.userMapper = userMapper;
-        this.encoder = encoder;
+        this.userAuthorityMapper = userAuthorityMapper;
     }
 
     @Override
@@ -36,9 +35,13 @@ public class DomainUserDetailsService implements UserDetailsService {
                         .ge("email", username)
         );
         if (user == null) throw new UsernameNotFoundException("User " + username + " does not exist.");
-        return new UserPrincipal(user);
-    }
 
+        var authorities = userAuthorityMapper.selectList(
+                new QueryWrapper<UserAuthority>()
+                        .eq("user_id", user.getId())
+        ).stream().map(UserAuthority::getAuthority).collect(Collectors.toSet());
+        return new UserPrincipal(user, authorities);
+    }
 
 
 }

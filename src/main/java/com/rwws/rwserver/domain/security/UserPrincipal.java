@@ -18,13 +18,13 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
     private boolean activated = true;
     private Set<Authority> authorities;
 
-    public UserPrincipal(User user) {
+    public UserPrincipal(User user, Set<Authority> authorities) {
         this.id = user.getId();
         this.login = user.getLogin();
         this.password = user.getPassword();
         this.displayName = user.getDisplayName();
         this.email = user.getEmail();
-        this.authorities = user.getAuthorities();
+        this.authorities = authorities;
     }
 
 

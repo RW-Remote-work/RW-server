@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -19,17 +20,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private static final String REMEMBER_ME_KEY = "CNpNhLLkeAvjkaJLZm6BTFvegLRvbdkzud4dUv2LvjFfEmCuzK2RjH22eBnY9Vwpjb2gDcvNSfMQ3Em4CB4Ykhg5TAcxCXncW9y";
+    private final ApplicationProperties properties;
     private final SecurityProblemSupport problemSupport;
     private final UserDetailsService userDetailsService;
     private final SessionRegistry sessionRegistry;
 
-    public SecurityConfig(SecurityProblemSupport problemSupport,
+    public SecurityConfig(ApplicationProperties properties,
+                          SecurityProblemSupport problemSupport,
                           UserDetailsService userDetailsService,
                           SessionRegistry sessionRegistry) {
+        this.properties = properties;
         this.problemSupport = problemSupport;
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
@@ -42,7 +46,7 @@ public class SecurityConfig {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .rememberMe()
-                .key(REMEMBER_ME_KEY)
+                .key(properties.getRememberMeKey())
                 .userDetailsService(userDetailsService)
                 .and()
                 .formLogin()

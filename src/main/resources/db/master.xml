@@ -4,4 +4,5 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <include file="changelog/create_hobby_1.0.xml" relativeToChangelogFile="true"/>
     <include file="changelog/create_user_1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/create_user_authority_1.0.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

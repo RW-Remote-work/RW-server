@@ -9,4 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
     private String superAdminPassword;
 
+    private String rememberMeKey;
+
 }

@@ -24,3 +24,4 @@ springdoc:
     disable-swagger-default-url: true
 application:
   super-admin-password: Z2D%GP#$Z8b%@KEm
+  remember-me-key: CNpNhLLkeAvjkaJLZm6BTFvegLRvbdkzud4dUv2LvjFfEmCuzK2RjH22eBnY9Vwpjb2gDcvNSfMQ3Em4CB4Ykhg5TAcxCXncW9y

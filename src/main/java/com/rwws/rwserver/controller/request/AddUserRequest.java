@@ -1,4 +1,4 @@
-package com.rwws.rwserver.controller;
+package com.rwws.rwserver.controller.request;
 
 import lombok.Data;
 
