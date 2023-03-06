@@ -10,13 +10,13 @@ import java.util.Set;
 
 @Getter
 public class UserPrincipal implements UserDetails, CredentialsContainer {
-    private Long id;
-    private String login;
+    private final Long id;
+    private final String login;
     private String password;
-    private String displayName;
-    private String email;
-    private boolean activated = true;
-    private Set<Authority> authorities;
+    private final String displayName;
+    private final String email;
+    private final boolean activated = true;
+    private final Set<Authority> authorities;
 
     public UserPrincipal(User user, Set<Authority> authorities) {
         this.id = user.getId();

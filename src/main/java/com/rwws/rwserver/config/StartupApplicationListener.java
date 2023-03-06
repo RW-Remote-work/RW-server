@@ -48,7 +48,6 @@ public class StartupApplicationListener implements ApplicationListener<ContextRe
             superAdmin.setEmail("RwSuperAdmin");
             superAdmin.setPassword(encoder.encode(properties.getSuperAdminPassword()));
             superAdmin.setDisplayName("RwSuperAdmin");
-            superAdmin.setCreatedBy("Auto Create");
             userMapper.insert(superAdmin);
 
             var authority = new UserAuthority();

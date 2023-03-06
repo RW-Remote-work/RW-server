@@ -9,8 +9,12 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(10)"/>
-            <column name="userId" type="bigint"/>
+            <column name="name" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userId" type="bigint">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

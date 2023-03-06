@@ -5,6 +5,9 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
     <changeSet id="1" author="Jinhan He">
         <createTable tableName="user_authority">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>

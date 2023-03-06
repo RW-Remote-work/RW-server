@@ -1,24 +1,24 @@
 package com.rwws.rwserver.domain;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
 
+import static com.baomidou.mybatisplus.annotation.FieldFill.INSERT;
+import static com.baomidou.mybatisplus.annotation.FieldFill.UPDATE;
+
 @Data
 public abstract class AbstractAuditingEntity {
-    @CreatedBy
+    @TableField(fill = INSERT)
     private String createdBy;
 
-    @CreatedDate
-    private Instant createdDate = Instant.now();
+    @TableField(fill = INSERT)
+    private Instant createdDate;
 
-    @LastModifiedBy
+    @TableField(fill = UPDATE)
     private String lastModifiedBy;
 
-    @LastModifiedDate
-    private Instant lastModifiedDate = Instant.now();
+    @TableField(fill = UPDATE)
+    private Instant lastModifiedDate;
 }
