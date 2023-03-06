@@ -12,7 +12,7 @@
             <column name="name" type="varchar(10)">
                 <constraints nullable="false"/>
             </column>
-            <column name="userId" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
