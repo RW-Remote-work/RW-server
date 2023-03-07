@@ -1,4 +1,4 @@
-package com.rwws.rwserver.module.support.dao;
+package com.rwws.rwserver.module.support.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,12 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- *  操作日志
- *
+ * 操作日志
  */
 @Mapper
 @Component
-public interface OperateLogDao extends BaseMapper<OperateLogEntity> {
+public interface OperateLogMapper extends BaseMapper<OperateLogEntity> {
 
     /**
      * 分页查询

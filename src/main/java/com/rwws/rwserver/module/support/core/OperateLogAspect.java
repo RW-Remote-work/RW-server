@@ -2,12 +2,11 @@ package com.rwws.rwserver.module.support.core;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.google.common.base.Joiner;
 import com.rwws.rwserver.common.core.domain.RequestUser;
 import com.rwws.rwserver.common.util.RWRequestUtil;
 import com.rwws.rwserver.module.support.annotation.OperateLog;
-import com.rwws.rwserver.module.support.dao.OperateLogDao;
 import com.rwws.rwserver.module.support.domain.OperateLogEntity;
+import com.rwws.rwserver.module.support.mapper.OperateLogMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -260,7 +259,7 @@ public abstract class OperateLogAspect {
     private Boolean saveLog(OperateLogEntity operateLogEntity) {
         OperateLogConfig operateLogConfig = getOperateLogConfig();
         if (operateLogConfig.getSaveFunction() == null) {
-            BaseMapper mapper = applicationContext.getBean(OperateLogDao.class);
+            BaseMapper mapper = applicationContext.getBean(OperateLogMapper.class);
             if (mapper == null) {
                 return false;
             }
