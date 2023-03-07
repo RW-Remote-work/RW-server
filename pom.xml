@@ -160,6 +160,7 @@
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
+                    <include>**/*.xml</include>
                     <include>*-${profileActive}.yaml</include>
                     <include>application.yaml</include>
                 </includes>
