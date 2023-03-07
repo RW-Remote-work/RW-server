@@ -8,8 +8,8 @@ import com.rwws.rwserver.common.util.RWRequestUtil;
 import com.rwws.rwserver.module.support.annotation.OperateLog;
 import com.rwws.rwserver.module.support.dao.OperateLogDao;
 import com.rwws.rwserver.module.support.domain.OperateLogEntity;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -132,11 +132,11 @@ public abstract class OperateLogAspect {
      * @return
      * @throws Exception
      */
-    private Api getApi(JoinPoint joinPoint) {
+    private Tag getApi(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-        Api classAnnotation = AnnotationUtils.findAnnotation(method.getDeclaringClass(), Api.class);
+        Tag classAnnotation = AnnotationUtils.findAnnotation(method.getDeclaringClass(), Tag.class);
         if (method != null) {
             return classAnnotation;
         }
@@ -150,13 +150,13 @@ public abstract class OperateLogAspect {
      * @return
      * @throws Exception
      */
-    private ApiOperation getApiOperation(JoinPoint joinPoint) {
+    private Operation getApiOperation(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
 
         if (method != null) {
-            return method.getAnnotation(ApiOperation.class);
+            return method.getAnnotation(Operation.class);
         }
         return null;
     }
@@ -210,14 +210,13 @@ public abstract class OperateLogAspect {
                         .userAgent(user.getUserAgent())
                         .failReason(failReason)
                         .successFlag(successFlag).build();
-        ApiOperation apiOperation = this.getApiOperation(joinPoint);
+        Operation apiOperation = this.getApiOperation(joinPoint);
         if (apiOperation != null) {
-            operateLogEntity.setContent(apiOperation.value());
+            operateLogEntity.setContent(apiOperation.description());
         }
-        Api api = this.getApi(joinPoint);
+        Tag api = this.getApi(joinPoint);
         if (api != null) {
-            String[] tags = api.tags();
-            operateLogEntity.setModule(Joiner.on(",").join(tags));
+            operateLogEntity.setModule(api.name());
         }
         taskExecutor.execute(() -> {
             this.saveLog(operateLogEntity);
