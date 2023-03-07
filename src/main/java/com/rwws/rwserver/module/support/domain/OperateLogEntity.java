@@ -1,6 +1,5 @@
 package com.rwws.rwserver.module.support.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -29,7 +28,7 @@ public class OperateLogEntity {
     /**
      * 主键id
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long operateLogId;
 
     /**

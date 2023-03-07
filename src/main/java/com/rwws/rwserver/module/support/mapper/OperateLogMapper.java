@@ -1,9 +1,7 @@
 package com.rwws.rwserver.module.support.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rwws.rwserver.module.support.domain.OperateLogEntity;
-import com.rwws.rwserver.module.support.domain.OperateLogQueryForm;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
@@ -16,14 +14,6 @@ import java.util.List;
 @Mapper
 @Component
 public interface OperateLogMapper extends BaseMapper<OperateLogEntity> {
-
-    /**
-     * 分页查询
-     * @param page
-     * @param queryForm
-     * @return UserOperateLogEntity
-     */
-    List<OperateLogEntity> queryByPage(Page page, @Param("query") OperateLogQueryForm queryForm);
 
     /**
      * 根据id删除
