@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.user.service;
 
-import com.rwws.rwserver.module.user.domain.request.AddUserRequest;
 import com.rwws.rwserver.module.user.mapper.UserMapper;
+import com.rwws.rwserver.module.user.request.AddUserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.user.controller;
 
-import com.rwws.rwserver.module.user.domain.request.AddUserRequest;
 import com.rwws.rwserver.domain.security.UserPrincipal;
+import com.rwws.rwserver.module.user.request.AddUserRequest;
 import com.rwws.rwserver.module.user.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
