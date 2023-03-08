@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-import com.rwws.rwserver.mapper.UserAuthorityMapper;
-import com.rwws.rwserver.mapper.UserMapper;
+import com.rwws.rwserver.module.user.mapper.UserAuthorityMapper;
+import com.rwws.rwserver.module.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class DomainUserDetailsService implements UserDetailsService {
+
     private final UserMapper userMapper;
     private final UserAuthorityMapper userAuthorityMapper;
 
