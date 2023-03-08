@@ -1,5 +1,6 @@
 package com.rwws.rwserver.config;
 
+import com.rwws.rwserver.security.JwtAuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.SessionInformationExpiredEvent;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
@@ -28,15 +30,18 @@ public class SecurityConfig {
     private final SecurityProblemSupport problemSupport;
     private final UserDetailsService userDetailsService;
     private final SessionRegistry sessionRegistry;
+    private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     public SecurityConfig(ApplicationProperties properties,
                           SecurityProblemSupport problemSupport,
                           UserDetailsService userDetailsService,
-                          SessionRegistry sessionRegistry) {
+                          SessionRegistry sessionRegistry,
+                          JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter) {
         this.properties = properties;
         this.problemSupport = problemSupport;
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
+        this.jwtAuthenticationTokenFilter= jwtAuthenticationTokenFilter;
     }
 
     @Bean
@@ -73,6 +78,8 @@ public class SecurityConfig {
                 .expiredSessionStrategy(this::onSessionExpired)
                 .and()
                 .and()
+                // 自定义权限拦截器JWT过滤器
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

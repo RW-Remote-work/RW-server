@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rwws.rwserver.module.support.dao.OperateLogDao">
+<mapper namespace="com.rwws.rwserver.module.support.mapper.OperateLogMapper">
 
-    <select id="queryByPage" resultType="com.rwws.rwserver.module.support.domain.OperateLogEntity">
+    <select id="queryByPage" resultType="com.rwws.rwserver.module.support.domain.OperateLog">
         select
         *
-        from t_operate_log
+        from operate_log
         <where>
             <if test="query.startDate != null and query.startDate != ''">
                 AND DATE_FORMAT(create_time, '%Y-%m-%d') &gt;= #{query.startDate}
@@ -24,11 +24,11 @@
     </select>
 
     <delete id="deleteById">
-        delete from t_operate_log where id = #{id}
+        delete from operate_log where id = #{id}
     </delete>
 
     <delete id="deleteByIds">
-        delete from t_operate_log where id in
+        delete from operate_log where id in
         <foreach collection="idList" open="(" close=")" separator="," item="item">
             #{item}
         </foreach>

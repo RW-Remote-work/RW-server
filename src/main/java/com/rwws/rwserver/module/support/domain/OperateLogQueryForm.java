@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.support.domain;
 
 import com.rwws.rwserver.common.core.domain.PageParam;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -10,18 +10,16 @@ import lombok.Data;
 @Data
 public class OperateLogQueryForm extends PageParam {
 
-
-    @ApiModelProperty("开始日期")
+    @Schema(name = "开始日期")
     private String startDate;
 
-    @ApiModelProperty("结束日期")
+    @Schema(name = "结束日期")
     private String endDate;
 
-
-    @ApiModelProperty("用户名称")
+    @Schema(name = "用户名称")
     private String userName;
 
-    @ApiModelProperty("请求结果 false失败 true成功")
+    @Schema(name = "请求结果 false失败 true成功")
     private Boolean successFlag;
 
 }

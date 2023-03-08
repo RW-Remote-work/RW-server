@@ -2,12 +2,11 @@ package com.rwws.rwserver.module.support.core;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.google.common.base.Joiner;
 import com.rwws.rwserver.common.core.domain.RequestUser;
 import com.rwws.rwserver.common.util.RWRequestUtil;
-import com.rwws.rwserver.module.support.annotation.OperateLog;
-import com.rwws.rwserver.module.support.dao.OperateLogDao;
-import com.rwws.rwserver.module.support.domain.OperateLogEntity;
+import com.rwws.rwserver.module.support.annotation.WebOperateLog;
+import com.rwws.rwserver.module.support.domain.OperateLog;
+import com.rwws.rwserver.module.support.mapper.OperateLogMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 操作日志记录处理,对所有OperateLog注解的Controller进行操作日志监控
@@ -42,21 +41,20 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 @Slf4j
 @Aspect
-public abstract class OperateLogAspect {
+public class WebOperateLogAspect {
 
-    private static final String pointCut = "@within(net.lab1024.sa.common.module.support.operatelog.annoation.OperateLog)";
+    private static final String pointCut = "@within(com.rwws.rwserver.module.support.annotation.WebOperateLog)";
 
     @Autowired
     private ApplicationContext applicationContext;
+
     /**
      * 线程池
      */
+    @Qualifier("logThreadPool")
     private ThreadPoolTaskExecutor taskExecutor;
 
-    public abstract OperateLogConfig getOperateLogConfig();
-
-    public OperateLogAspect() {
-        this.initThread();
+    public WebOperateLogAspect() {
     }
 
     @Pointcut(pointCut)
@@ -73,37 +71,9 @@ public abstract class OperateLogAspect {
         handleLog(joinPoint, e);
     }
 
-    /**
-     * 初始化线程池
-     */
-    private void initThread() {
-        OperateLogConfig config = getOperateLogConfig();
-        int corePoolSize = Runtime.getRuntime().availableProcessors();
-        if (null != config.getCorePoolSize()) {
-            corePoolSize = config.getCorePoolSize();
-        }
-        taskExecutor = new ThreadPoolTaskExecutor();
-        //线程初始化
-        taskExecutor.initialize();
-        // 设置核心线程数
-        taskExecutor.setCorePoolSize(corePoolSize);
-        // 设置最大线程数
-        taskExecutor.setMaxPoolSize(corePoolSize * 2);
-        // 设置队列容量
-        taskExecutor.setQueueCapacity(1000);
-        // 设置线程活跃时间（秒）
-        taskExecutor.setKeepAliveSeconds(60);
-        // 设置默认线程名称
-        taskExecutor.setThreadNamePrefix("smart-logs");
-        // 设置拒绝策略
-        taskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        // 等待所有任务结束后再关闭线程池
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(true);
-    }
-
     protected void handleLog(final JoinPoint joinPoint, final Exception e) {
         try {
-            OperateLog operateLog = this.getAnnotationLog(joinPoint);
+            WebOperateLog operateLog = this.getAnnotationLog(joinPoint);
             if (operateLog == null) {
                 return;
             }
@@ -114,11 +84,11 @@ public abstract class OperateLogAspect {
         }
     }
 
-    private OperateLog getAnnotationLog(JoinPoint joinPoint) throws Exception {
+    private WebOperateLog getAnnotationLog(JoinPoint joinPoint) throws Exception {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-        OperateLog classAnnotation = AnnotationUtils.findAnnotation(method.getDeclaringClass(), OperateLog.class);
+        WebOperateLog classAnnotation = AnnotationUtils.findAnnotation(method.getDeclaringClass(), WebOperateLog.class);
         if (method != null) {
             return classAnnotation;
         }
@@ -198,8 +168,8 @@ public abstract class OperateLogAspect {
         }
 
 
-        OperateLogEntity operateLogEntity =
-                OperateLogEntity.builder()
+        OperateLog operateLogEntity =
+                OperateLog.builder()
                         .operateUserId(user.getUserId())
                         .operateUserType(user.getUserType().getValue())
                         .operateUserName(user.getUserName())
@@ -257,17 +227,13 @@ public abstract class OperateLogAspect {
      * @param operateLogEntity
      * @return
      */
-    private Boolean saveLog(OperateLogEntity operateLogEntity) {
-        OperateLogConfig operateLogConfig = getOperateLogConfig();
-        if (operateLogConfig.getSaveFunction() == null) {
-            BaseMapper mapper = applicationContext.getBean(OperateLogDao.class);
-            if (mapper == null) {
-                return false;
-            }
-            mapper.insert(operateLogEntity);
-            return true;
+    private Boolean saveLog(OperateLog operateLogEntity) {
+        BaseMapper mapper = applicationContext.getBean(OperateLogMapper.class);
+        if (mapper == null) {
+            return false;
         }
-        return operateLogConfig.getSaveFunction().apply(operateLogEntity);
+        mapper.insert(operateLogEntity);
+        return true;
     }
 
 }
