@@ -1,8 +1,6 @@
 package com.rwws.rwserver.module.support.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.rwws.rwserver.common.enumer.UserTypeEnum;
-import com.rwws.rwserver.common.swagger.ApiModelPropertyEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -21,7 +19,6 @@ public class OperateLogVO {
     @Schema(name = "用户id")
     private Long operateUserId;
 
-    @ApiModelPropertyEnum(value = UserTypeEnum.class, desc = "用户类型")
     private Integer operateUserType;
 
     @Schema(name = "用户名称")

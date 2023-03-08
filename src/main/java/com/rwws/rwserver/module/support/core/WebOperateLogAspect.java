@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.support.core;
 
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rwws.rwserver.common.core.domain.RequestUser;
 import com.rwws.rwserver.common.util.RWRequestUtil;
 import com.rwws.rwserver.module.support.annotation.WebOperateLog;
@@ -47,6 +47,8 @@ public class WebOperateLogAspect {
 
     @Autowired
     private ApplicationContext applicationContext;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     /**
      * 线程池
@@ -155,7 +157,7 @@ public class WebOperateLogAspect {
         }
 
         Object[] args = joinPoint.getArgs();
-        String params = JSON.toJSONString(args);
+        String params = objectMapper.writeValueAsString(args);
         // 设置方法名称
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = joinPoint.getSignature().getName();

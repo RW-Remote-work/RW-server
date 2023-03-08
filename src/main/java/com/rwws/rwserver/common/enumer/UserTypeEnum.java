@@ -1,10 +1,11 @@
 package com.rwws.rwserver.common.enumer;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
+
 /**
  * 用户类型
- *
  */
-public enum UserTypeEnum implements BaseEnum {
+public enum UserTypeEnum implements IEnum<Integer> {
 
     /**
      * 管理端 员工用户
@@ -25,7 +26,6 @@ public enum UserTypeEnum implements BaseEnum {
         return type;
     }
 
-    @Override
     public String getDesc() {
         return desc;
     }
