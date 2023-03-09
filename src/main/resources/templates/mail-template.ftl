@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style>
         @page {
-            margin: 0px;
+            margin: 0;
         }
     </style>
 </head>

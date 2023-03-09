@@ -49,6 +49,7 @@ public class SecurityConfig {
         return http
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers("/verifycodes")
                 .and()
                 .rememberMe()
                 .key(properties.getRememberMeKey())

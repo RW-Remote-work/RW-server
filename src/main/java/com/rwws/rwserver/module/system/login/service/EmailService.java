@@ -7,6 +7,7 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.rwws.rwserver.common.constant.RedisConstant;
+import com.rwws.rwserver.common.constant.RegexPatternFactory;
 import com.rwws.rwserver.common.util.RWFileUtil;
 import com.rwws.rwserver.module.system.login.domain.dto.EmailDTO;
 import com.rwws.rwserver.module.system.login.exception.EmailConfigIllegalException;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailAuthenticationException;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -31,15 +33,13 @@ import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 
 @Service
 @Slf4j
 public class EmailService {
     @Value("${spring.mail.host}")
     private String host;
-
-    @Value("${spring.mail.port}")
-    private String port;
 
     @Value("${spring.mail.username}")
     private String username;
@@ -63,12 +63,35 @@ public class EmailService {
     }
 
     /**
+     * 校验Email格式
+     * @param email
+     * @return
+     */
+    public boolean checkEmail(String email) {
+        if (Objects.isNull(email))
+            return false;
+
+        Matcher matcher = RegexPatternFactory.emailPattern().matcher(email);
+        return matcher.find();
+    }
+
+    /**
+     * 发送验证码邮件
+     * @param email
+     */
+    public void sendVerifyCodeEmail(String email) {
+        EmailDTO emailDTO = new EmailDTO();
+        emailDTO.setToEmail(email);
+        emailDTO.setSubject("RW社区验证码");
+        this.send(emailDTO);
+    }
+
+    /**
      * 发送邮件
      * @param emailDTO
      */
     public void send(EmailDTO emailDTO) {
-        if (Objects.isNull(host) || Objects.isNull(port)
-            || Objects.isNull(username) || Objects.isNull(passsword))
+        if (Objects.isNull(host) || Objects.isNull(username) || Objects.isNull(passsword))
             throw new EmailConfigIllegalException();
 
         MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
@@ -89,23 +112,11 @@ public class EmailService {
         }
 
         this.taskExecutor.execute(() -> {
-            boolean success = false;
-            int tryNum = 0;
-            while (!success && tryNum < 3) {
-                try {
-                    this.javaMailSender.send(mailMessage);
-                    success = true;
-                    this.valueOperations.set(RedisConstant.getEmailCodeKey(emailDTO.getToEmail()), randomCode, this.codeExpiration, TimeUnit.SECONDS);
-                } catch (MailSendException e) {
-                    log.error(e.getMessage(), e);
-                    tryNum++;
-                } catch (MailAuthenticationException e) {
-                    log.error(e.getMessage(), e);
-                    tryNum++;
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                    tryNum++;
-                }
+            try {
+                this.javaMailSender.send(mailMessage);
+                this.valueOperations.set(RedisConstant.getEmailCodeKey(emailDTO.getToEmail()), randomCode, this.codeExpiration, TimeUnit.SECONDS);
+            } catch (MailException ex) {
+                log.error(ex.getMessage(), ex);
             }
         });
     }

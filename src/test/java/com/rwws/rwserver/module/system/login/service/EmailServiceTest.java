@@ -16,5 +16,10 @@ public class EmailServiceTest extends BaseTest {
         emailDTO.setToEmail("wublhappy@hotmail.com");
         emailDTO.setSubject("RW社区邮箱验证码");
         this.emailService.send(emailDTO);
+        try {
+            Thread.sleep(10 * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
