@@ -200,6 +200,30 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.20.0</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/master.xml</changeLogFile>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>
+                        jdbc:mysql://rw-test-website-01.cspipudysx5o.us-east-2.rds.amazonaws.com:3306/rwws_test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8
+                    </url>
+                    <username>rwweb</username>
+                    <password>RwWeb2023</password>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <databaseChangeLogTableName>rw_databasechangelog</databaseChangeLogTableName>
+                    <databaseChangeLogLockTableName>rw_databasechangeloglock</databaseChangeLogLockTableName>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>8.0.32</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
