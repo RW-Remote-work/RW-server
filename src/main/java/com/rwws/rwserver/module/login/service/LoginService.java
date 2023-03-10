@@ -1,17 +1,12 @@
 package com.rwws.rwserver.module.login.service;
 
+
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-<<<<<<< HEAD:src/main/java/com/rwws/rwserver/module/system/login/service/LoginService.java
 import com.rwws.rwserver.exception.ResourceNotFoundProblem;
-import com.rwws.rwserver.module.system.login.domain.response.LoginResponse;
-import com.rwws.rwserver.module.system.login.domain.response.RegisterResponse;
-=======
-import com.rwws.rwserver.exception.BadRequestProblem;
 import com.rwws.rwserver.module.login.domain.response.LoginResponse;
 import com.rwws.rwserver.module.login.domain.response.RegisterResponse;
->>>>>>> 74d04db4d0194091fff91e6653b65ca71fa4afb5:src/main/java/com/rwws/rwserver/module/login/service/LoginService.java
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

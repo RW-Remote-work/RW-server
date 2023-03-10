@@ -1,5 +1,6 @@
 package com.rwws.rwserver.module.login.service;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
@@ -9,19 +10,11 @@ import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.exception.BadRequestProblem;
-<<<<<<< HEAD:src/main/java/com/rwws/rwserver/module/system/login/service/RegisterService.java
-import com.rwws.rwserver.module.support.service.RedisService;
-import com.rwws.rwserver.module.system.login.domain.request.RegisterRequest;
-import com.rwws.rwserver.module.system.login.domain.response.RegisterResponse;
-import com.rwws.rwserver.module.system.user.mapper.UserAuthorityMapper;
-import com.rwws.rwserver.module.system.user.mapper.UserMapper;
-=======
 import com.rwws.rwserver.module.login.domain.request.RegisterRequest;
 import com.rwws.rwserver.module.login.domain.response.RegisterResponse;
-import com.rwws.rwserver.module.user.mapper.UserAuthorityMapper;
-import com.rwws.rwserver.module.user.mapper.UserMapper;
+import com.rwws.rwserver.module.system.user.mapper.UserAuthorityMapper;
+import com.rwws.rwserver.module.system.user.mapper.UserMapper;
 import com.rwws.rwserver.service.RedisService;
->>>>>>> 74d04db4d0194091fff91e6653b65ca71fa4afb5:src/main/java/com/rwws/rwserver/module/login/service/RegisterService.java
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,15 +1,13 @@
 package com.rwws.rwserver.module.login.controller;
 
-<<<<<<< HEAD:src/main/java/com/rwws/rwserver/module/system/login/controller/VerifyCodeController.java
-import com.rwws.rwserver.module.system.login.domain.request.GetVerifyCodeRequest;
-import com.rwws.rwserver.module.system.login.service.EmailService;
-import org.springframework.http.HttpStatus;
-=======
+
 import com.rwws.rwserver.module.login.domain.request.GetVerifyCodeRequest;
 import com.rwws.rwserver.module.login.service.EmailService;
->>>>>>> 74d04db4d0194091fff91e6653b65ca71fa4afb5:src/main/java/com/rwws/rwserver/module/login/controller/VerifyCodeController.java
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/verifycodes")
@@ -22,7 +20,6 @@ public class VerifyCodeController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
     public void getVerifyCode(@Validated @RequestBody GetVerifyCodeRequest verifyCodeRequest) {
         this.emailService.sendVerifyCode(verifyCodeRequest.getEmail());
     }
