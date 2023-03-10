@@ -1,9 +1,10 @@
 package com.rwws.rwserver.controller;
 
-import com.rwws.rwserver.common.util.oConvertUtils;
+import com.rwws.rwserver.controller.request.AddNomadLabelRequest;
 import com.rwws.rwserver.domain.NomadLabel;
 import com.rwws.rwserver.service.NomadLabelService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/nomadLabel")
+@RequestMapping("/nomadLabels")
 public class NomadLabelController {
 
     private final NomadLabelService nomadLabelService;
@@ -34,7 +35,7 @@ public class NomadLabelController {
      * @author keyi
      * @Date 2023/2/17 22:41
      */
-    @GetMapping("/list")
+    @GetMapping("")
     public List<NomadLabel> list() {
 
         return this.nomadLabelService.list();
@@ -43,20 +44,14 @@ public class NomadLabelController {
     /**
      * 添加国家地区(批量？)
      *
-     * @param list 需要添加的游民标签列表
+     * @param request 需要添加的游民标签列表
      * @return 是否添加成功
      * @author keyi
      * @Date 2023/2/17 22:45
      */
-    @PostMapping("/add")
+    @PostMapping("")
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
-    public boolean add(@RequestBody(required = false) List<NomadLabel> list) {
-
-        if (oConvertUtils.isNotEmpty(list)) {
-            list.forEach(it -> {
-                this.nomadLabelService.add(it);
-            });
-        }
-        return true;
+    public void add(@Validated @RequestBody AddNomadLabelRequest request) {
+        nomadLabelService.add(request);
     }
 }

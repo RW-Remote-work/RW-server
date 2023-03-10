@@ -1,6 +1,6 @@
 package com.rwws.rwserver.config;
 
-import com.rwws.rwserver.common.core.domain.SystemEnvironment;
+import com.rwws.rwserver.common.domain.SystemEnvironment;
 import com.rwws.rwserver.common.enumer.SystemEnvironmentEnum;
 import com.rwws.rwserver.common.util.RWEnumUtil;
 import org.apache.commons.lang3.StringUtils;

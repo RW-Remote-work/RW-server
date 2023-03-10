@@ -1,4 +1,4 @@
-package com.rwws.rwserver.common.core.domain;
+package com.rwws.rwserver.common.domain;
 
 
 import com.rwws.rwserver.common.enumer.SystemEnvironmentEnum;

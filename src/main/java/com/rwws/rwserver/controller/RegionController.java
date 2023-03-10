@@ -1,12 +1,11 @@
 package com.rwws.rwserver.controller;
 
-import com.rwws.rwserver.common.util.oConvertUtils;
-import com.rwws.rwserver.domain.Region;
+import com.rwws.rwserver.controller.request.AddRegionRequest;
+import com.rwws.rwserver.controller.response.ListRegionResponse;
 import com.rwws.rwserver.service.RegionService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 国家地区接口
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/region")
+@RequestMapping("/regions")
 public class RegionController {
 
 
@@ -36,31 +35,22 @@ public class RegionController {
      * @author keyi
      * @Date 2023/2/17 22:41
      */
-    @GetMapping("/list")
-    public List<Region> list() {
-
-        return this.regionService.list();
+    @GetMapping("")
+    public ListRegionResponse listRegion() {
+        return regionService.list();
     }
 
     /**
      * 添加国家地区(批量？)
      *
-     * @param list 需要添加的国家（地区）列表
+     * @param request 需要添加的国家（地区）列表
      * @return 是否添加成功
      * @author keyi
      * @Date 2023/2/17 22:45
      */
-    @PostMapping("/add")
+    @PostMapping("")
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
-    public boolean add(@RequestBody(required = false) List<Region> list) {
-
-        if (oConvertUtils.isNotEmpty(list)) {
-            list.forEach(it -> {
-                this.regionService.add(it);
-            });
-        }
-        return true;
+    public void addRegion(@Validated @RequestBody AddRegionRequest request) {
+        regionService.add(request);
     }
-
-
 }

@@ -2,8 +2,6 @@ package com.rwws.rwserver.domain;
 
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 国家地区实体
  *
@@ -12,7 +10,7 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
-public class Region implements Serializable {
+public class Region {
 
     /**
      * 主键
@@ -33,6 +31,4 @@ public class Region implements Serializable {
      * 备注
      */
     private String remark;
-
-
 }

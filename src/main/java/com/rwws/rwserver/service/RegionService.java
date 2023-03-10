@@ -1,13 +1,13 @@
 package com.rwws.rwserver.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.rwws.rwserver.controller.request.AddRegionRequest;
+import com.rwws.rwserver.controller.response.ListRegionResponse;
 import com.rwws.rwserver.domain.Region;
 import com.rwws.rwserver.exception.BadRequestProblem;
 import com.rwws.rwserver.mapper.RegionMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * 国家地区Service
@@ -36,36 +36,45 @@ public class RegionService {
      * @author keyi
      * @Date 2023/3/10 11:56
      */
-    public List<Region> list() {
-        return this.regionMapper.selectList(null);
+    public ListRegionResponse list() {
+        var regions = regionMapper.selectList(null).stream().map(it -> {
+            var region = new ListRegionResponse.Region();
+            region.setId(it.getId());
+            region.setRemark(it.getRemark());
+            region.setEngName(it.getEngName());
+            region.setChnName(it.getChnName());
+            return region;
+        }).toList();
+        var response = new ListRegionResponse();
+        response.setRegions(regions);
+        return response;
     }
+
 
     /**
      * 添加国家地区
      *
-     * @param region 国家地区
+     * @param request 国家地区
      * @return
      * @author keyi
      * @Date 2023/3/10 12:06
      */
-
     @Transactional
-    public void add(Region region) {
+    public void add(AddRegionRequest request) {
+        request.getRegion().forEach(this::add);
 
-        //检查国家地区中文名是否为空
-        if (region.getChnName() == null || "".equals(region.getChnName())) {
-            throw new BadRequestProblem("地区中文名不能为空");
-        }
-
-        //检查表里是否存在相同的数据
-        QueryWrapper<Region> queryWrapper = new QueryWrapper<Region>().eq("chn_name", region.getChnName());
-        Region one = this.regionMapper.selectOne(queryWrapper);
-        if (one != null) {
-            throw new BadRequestProblem("该地区已存在，请勿重复添加");
-        }
-        region.setId(null);
-        this.regionMapper.insert(region);
     }
 
-
+    private void add(AddRegionRequest.Region requestRegion) {
+        //检查表里是否存在相同的数据
+        var queryWrapper = new QueryWrapper<Region>().eq("chn_name", requestRegion.getChnName());
+        if (regionMapper.exists(queryWrapper)) {
+            throw new BadRequestProblem("该地区已存在，请勿重复添加");
+        }
+        var region = new Region();
+        region.setRemark(requestRegion.getRemark());
+        region.setEngName(requestRegion.getEngName());
+        region.setChnName(requestRegion.getChnName());
+        this.regionMapper.insert(region);
+    }
 }

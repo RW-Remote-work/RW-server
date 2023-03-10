@@ -1,7 +1,7 @@
 package com.rwws.rwserver.service;
 
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
-import com.rwws.rwserver.common.core.domain.SystemEnvironment;
+import com.rwws.rwserver.common.domain.SystemEnvironment;
 import com.rwws.rwserver.common.enumer.SystemEnvironmentEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

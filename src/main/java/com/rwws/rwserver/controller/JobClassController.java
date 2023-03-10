@@ -1,8 +1,9 @@
 package com.rwws.rwserver.controller;
 
-import com.rwws.rwserver.common.util.oConvertUtils;
+import com.rwws.rwserver.controller.request.AddJobClassRequest;
 import com.rwws.rwserver.domain.JobClass;
 import com.rwws.rwserver.service.JobClassService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,6 @@ public class JobClassController {
      */
     @GetMapping("/list")
     public List<JobClass> list() {
-
         return this.jobClassService.list();
     }
 
@@ -50,14 +50,8 @@ public class JobClassController {
      */
     @PostMapping("/add")
     /*@PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")*/
-    public boolean add(@RequestBody(required = false) List<JobClass> list) {
-
-        if (oConvertUtils.isNotEmpty(list)) {
-            list.forEach(it -> {
-                this.jobClassService.add(it);
-            });
-        }
-        return true;
+    public void add(@Validated @RequestBody AddJobClassRequest request) {
+        jobClassService.add(request);
     }
 
 }
