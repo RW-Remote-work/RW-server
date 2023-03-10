@@ -10,4 +10,18 @@ import lombok.Data;
  */
 @Data
 public class Region {
+
+    /** 主键 */
+    private Integer id;
+
+    /** 中文名称 */
+    private String chnName;
+
+    /** 英文名称或拼音 */
+    private String engName;
+
+    /** 备注 */
+    private String remark;
+
+
 }
