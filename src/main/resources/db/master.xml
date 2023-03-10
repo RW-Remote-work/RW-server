@@ -9,4 +9,6 @@
     <include file="changelog/create_rw_job_approve_1.0.xml" relativeToChangelogFile="true"/>
     <include file="changelog/create_region_1.0.xml" relativeToChangelogFile="true"/>
     <include file="changelog/create_user_label_1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/create_job_class_1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/create_money_type_1.0.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

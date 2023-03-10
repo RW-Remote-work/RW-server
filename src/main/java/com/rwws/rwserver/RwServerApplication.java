@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @EnableConfigurationProperties(ApplicationProperties.class)
-@MapperScan("com.rwws.rwserver")
+@MapperScan("com.rwws.rwserver.**.mapper")
 @SpringBootApplication
 public class RwServerApplication {
     public static void main(String[] args) {

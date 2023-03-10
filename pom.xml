@@ -20,6 +20,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     </properties>
 
     <dependencies>
@@ -142,6 +143,12 @@
             <artifactId>fastjson</artifactId>
             <version>2.0.16</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${org.mapstruct.version}</version>
+        </dependency>
     </dependencies>
 
     <profiles>
@@ -177,6 +184,7 @@
                     <include>**/*.xml</include>
                     <include>*-${profileActive}.yaml</include>
                     <include>application.yaml</include>
+                    <include>static/*.html</include>
                 </includes>
             </resource>
             <resource>
@@ -199,6 +207,49 @@
                         </exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.26</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${org.mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.20.0</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db/master.xml</changeLogFile>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>
+                        jdbc:mysql://rw-test-website-01.cspipudysx5o.us-east-2.rds.amazonaws.com:3306/rwws_test?useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&amp;useSSL=true&amp;serverTimezone=GMT%2B8
+                    </url>
+                    <username>rwweb</username>
+                    <password>RwWeb2023</password>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                    <databaseChangeLogTableName>rw_databasechangelog</databaseChangeLogTableName>
+                    <databaseChangeLogLockTableName>rw_databasechangeloglock</databaseChangeLogLockTableName>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.mysql</groupId>
+                        <artifactId>mysql-connector-j</artifactId>
+                        <version>8.0.32</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
