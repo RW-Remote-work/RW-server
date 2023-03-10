@@ -1,3 +1,5 @@
+project:
+  name: remote-work
 spring:
   profiles:
     active: @profileActive@
