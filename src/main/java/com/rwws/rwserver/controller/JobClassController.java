@@ -1,5 +1,6 @@
 package com.rwws.rwserver.controller;
 
+import com.rwws.rwserver.common.util.oConvertUtils;
 import com.rwws.rwserver.domain.JobClass;
 import com.rwws.rwserver.domain.Region;
 import com.rwws.rwserver.service.JobClassService;
@@ -48,10 +49,10 @@ public class JobClassController {
      * @return 是否添加成功
      */
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
+    /*@PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")*/
     public boolean add (@RequestBody(required = false) List<JobClass> list){
 
-        if(list!=null){
+        if(oConvertUtils.isNotEmpty(list)){
             list.forEach(it->{
                 this.jobClassService.add(it);
             });

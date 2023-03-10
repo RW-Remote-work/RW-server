@@ -1,5 +1,6 @@
 package com.rwws.rwserver.controller;
 
+import com.rwws.rwserver.common.util.oConvertUtils;
 import com.rwws.rwserver.domain.Region;
 import com.rwws.rwserver.service.RegionService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -50,7 +51,7 @@ public class RegionController {
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
     public boolean add (@RequestBody(required = false) List<Region> list){
 
-        if(list!=null){
+        if(oConvertUtils.isNotEmpty(list)){
             list.forEach(it->{
                 this.regionService.add(it);
             });
