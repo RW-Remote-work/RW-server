@@ -41,7 +41,7 @@ public class SecurityConfig {
         this.problemSupport = problemSupport;
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
-        this.jwtAuthenticationTokenFilter= jwtAuthenticationTokenFilter;
+        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
     }
 
     @Bean

@@ -1,4 +1,5 @@
 package com.rwws.rwserver.module.job.domain;
+
 import lombok.Data;
 
 import java.util.Date;
@@ -6,7 +7,7 @@ import java.util.Date;
 /**
  * 查询参数
  *
- * @author 
+ * @author
  * @since 2023-03-10
  */
 @Data

@@ -4,7 +4,6 @@ import org.jetbrains.annotations.Nullable;
 import org.zalando.problem.AbstractThrowableProblem;
 
 import static org.zalando.problem.Status.CONFLICT;
-import static org.zalando.problem.Status.NOT_FOUND;
 
 public class ResourceConflictProblem extends AbstractThrowableProblem {
 

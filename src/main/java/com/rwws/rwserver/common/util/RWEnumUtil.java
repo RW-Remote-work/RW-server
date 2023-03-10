@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 
 /**
  * 枚举工具类
- *
  */
 public class RWEnumUtil {
 

@@ -5,14 +5,14 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="2" author="huang cb">
-        <dropTable  tableName="rw_job"/>
+        <dropTable tableName="rw_job"/>
         <createTable tableName="rw_job" remarks="远程工作表">
             <column name="id" type="bigint" remarks="主键ID">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="job_code" type="varchar(20)" remarks="岗位编号" />
+            <column name="job_code" type="varchar(20)" remarks="岗位编号"/>
             <column name="job_name" type="varchar(50)" defaultOnNull="1" remarks="岗位名称">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
             <column name="job_class_id" type="bigint" defaultOnNull="1" remarks="职位分类ID">
                 <constraints nullable="false"/>

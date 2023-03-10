@@ -4,7 +4,6 @@ package com.rwws.rwserver.module.login.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
-import com.rwws.rwserver.common.util.RWRequestUtil;
 import com.rwws.rwserver.domain.security.Authority;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
@@ -21,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Set;
@@ -76,9 +74,6 @@ public class RegisterService {
         user.setDisplayName(registerRequest.getEmail());
         user.setPassword(encryptPwd);
         user.setActivated(Boolean.TRUE);
-        if (null != RWRequestUtil.getRequestUser())
-            user.setCreatedBy(String.valueOf(RWRequestUtil.getRequestUser().getUserId()));
-        user.setCreatedDate(Instant.now());
         this.userMapper.insert(user);
 
         // 新增用户权限

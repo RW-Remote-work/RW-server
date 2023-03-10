@@ -1,17 +1,17 @@
 package com.rwws.rwserver.module.job.domain;
 
-import com.rwws.rwserver.common.validation.EmailCheck;
+import com.rwws.rwserver.common.constant.RegexConstant;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * 添加远程工作
  */
 @Data
-public class AddRwJobRequest implements Serializable {
+public class AddRwJobRequest {
 
     /**
      * 岗位名称
@@ -41,7 +41,7 @@ public class AddRwJobRequest implements Serializable {
      * 投递邮箱
      */
     @NotEmpty(message = "邮箱不能为空")
-    @EmailCheck(message = "邮箱格式不正确")
+    @Email(regexp = RegexConstant.EMAIL)
     private String deliverEmail;
 
     /**

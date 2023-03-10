@@ -4,7 +4,6 @@ import java.util.Objects;
 
 /**
  * 枚举类接口
- *
  */
 public interface BaseEnum {
 

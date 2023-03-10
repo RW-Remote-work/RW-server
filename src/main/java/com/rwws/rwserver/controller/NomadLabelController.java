@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 游民标签API
+ *
  * @Author ko
  * @Date 2023/3/10 20:26
  * @Version 1.0
@@ -27,30 +28,32 @@ public class NomadLabelController {
 
     /**
      * 获取游民标签列表
-     * @author keyi
-     * @Date 2023/2/17 22:41
+     *
      * @param
      * @return
+     * @author keyi
+     * @Date 2023/2/17 22:41
      */
     @GetMapping("/list")
-    public List<NomadLabel> list(){
+    public List<NomadLabel> list() {
 
         return this.nomadLabelService.list();
     }
 
     /**
      * 添加国家地区(批量？)
-     * @author keyi
-     * @Date 2023/2/17 22:45
+     *
      * @param list 需要添加的游民标签列表
      * @return 是否添加成功
+     * @author keyi
+     * @Date 2023/2/17 22:45
      */
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
-    public boolean add (@RequestBody(required = false) List<NomadLabel> list){
+    public boolean add(@RequestBody(required = false) List<NomadLabel> list) {
 
-        if(oConvertUtils.isNotEmpty(list)){
-            list.forEach(it->{
+        if (oConvertUtils.isNotEmpty(list)) {
+            list.forEach(it -> {
                 this.nomadLabelService.add(it);
             });
         }

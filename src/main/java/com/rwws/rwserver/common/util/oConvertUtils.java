@@ -6,6 +6,7 @@ import java.util.Collection;
 
 /**
  * 对象工具类
+ *
  * @Author ko
  * @Date 2023/3/10 17:04
  * @Version 1.0
@@ -30,6 +31,7 @@ public class oConvertUtils {
         }
         return (false);
     }
+
     /**
      * 获取本机IP
      */
@@ -68,7 +70,6 @@ public class oConvertUtils {
     public static boolean listIsNotEmpty(Collection list) {
         return !listIsEmpty(list);
     }
-
 
 
 }

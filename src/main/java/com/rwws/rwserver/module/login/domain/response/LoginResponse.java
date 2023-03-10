@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class LoginResponse {
 
-    private RegisterResponse.UserVO  userVO;
+    private RegisterResponse.UserVO userVO;
 
     @Schema(title = "会话Token")
     private String token;

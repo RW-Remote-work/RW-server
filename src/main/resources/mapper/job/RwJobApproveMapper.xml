@@ -5,16 +5,16 @@
 <mapper namespace="com.rwws.rwserver.module.job.mapper.RwJobApproveMapper">
 
     <resultMap id="BaseResultMap" type="com.rwws.rwserver.module.job.domain.RwJobApprove">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="jobId" column="job_id" jdbcType="BIGINT"/>
-            <result property="approveUserId" column="approve_user_id" jdbcType="BIGINT"/>
-            <result property="approveTime" column="approve_time" jdbcType="TIMESTAMP"/>
-            <result property="approveStatus" column="approve_status" jdbcType="INTEGER"/>
-            <result property="approveReason" column="approve_reason" jdbcType="VARCHAR"/>
-            <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
-            <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"/>
-            <result property="lastModifiedBy" column="last_modified_by" jdbcType="VARCHAR"/>
-            <result property="lastModifiedDate" column="last_modified_date" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="jobId" column="job_id" jdbcType="BIGINT"/>
+        <result property="approveUserId" column="approve_user_id" jdbcType="BIGINT"/>
+        <result property="approveTime" column="approve_time" jdbcType="TIMESTAMP"/>
+        <result property="approveStatus" column="approve_status" jdbcType="INTEGER"/>
+        <result property="approveReason" column="approve_reason" jdbcType="VARCHAR"/>
+        <result property="createdBy" column="created_by" jdbcType="VARCHAR"/>
+        <result property="createdDate" column="created_date" jdbcType="TIMESTAMP"/>
+        <result property="lastModifiedBy" column="last_modified_by" jdbcType="VARCHAR"/>
+        <result property="lastModifiedDate" column="last_modified_date" jdbcType="TIMESTAMP"/>
 
     </resultMap>
 

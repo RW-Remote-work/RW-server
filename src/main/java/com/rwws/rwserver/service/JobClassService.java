@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 职位分类服务层
+ *
  * @Author ko
  * @Date 2023/3/10 16:50
  * @Version 1.0
@@ -25,21 +26,22 @@ public class JobClassService {
     }
 
     //查询列表
-    public List<JobClass> list(){
+    public List<JobClass> list() {
         return null;
     }
+
     //增加
-    public void add(JobClass jobClass){
+    public void add(JobClass jobClass) {
 
         //检查职业分类中文名称是否为空
-        if(jobClass.getJobChn()!=null&&!"".equals(jobClass.getJobChn())){
+        if (jobClass.getJobChn() != null && !"".equals(jobClass.getJobChn())) {
             throw new BadRequestProblem("职业分类中文名称不能为空");
         }
 
         //检查表里是否存在相同的数据
-        QueryWrapper<JobClass> queryWrapper = new QueryWrapper<JobClass>().eq("job_chn",jobClass.getJobChn());
+        QueryWrapper<JobClass> queryWrapper = new QueryWrapper<JobClass>().eq("job_chn", jobClass.getJobChn());
         JobClass one = this.jobClassMapper.selectOne(queryWrapper);
-        if(one!=null){
+        if (one != null) {
             throw new BadRequestProblem("该职业分类已存在，请勿重复添加");
         }
         jobClass.setId(null);

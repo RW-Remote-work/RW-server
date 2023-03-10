@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * 国家地区接口
+ *
  * @Author ko
  * @Date 2023/3/10 11:48
  * @Version 1.0
@@ -29,30 +30,32 @@ public class RegionController {
 
     /**
      * 获取国家地球列表
-     * @author keyi
-     * @Date 2023/2/17 22:41
+     *
      * @param
      * @return
+     * @author keyi
+     * @Date 2023/2/17 22:41
      */
     @GetMapping("/list")
-    public List<Region> list(){
+    public List<Region> list() {
 
         return this.regionService.list();
     }
 
     /**
      * 添加国家地区(批量？)
-     * @author keyi
-     * @Date 2023/2/17 22:45
+     *
      * @param list 需要添加的国家（地区）列表
      * @return 是否添加成功
+     * @author keyi
+     * @Date 2023/2/17 22:45
      */
     @PostMapping("/add")
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
-    public boolean add (@RequestBody(required = false) List<Region> list){
+    public boolean add(@RequestBody(required = false) List<Region> list) {
 
-        if(oConvertUtils.isNotEmpty(list)){
-            list.forEach(it->{
+        if (oConvertUtils.isNotEmpty(list)) {
+            list.forEach(it -> {
                 this.regionService.add(it);
             });
         }

@@ -13,7 +13,6 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  * 系统环境
- *
  */
 @Configuration
 public class SystemEnvironmentConfig implements Condition {

@@ -11,9 +11,10 @@ import java.util.Date;
 
 /**
  * 远程工作表
+ *
  * @TableName rw_job
  */
-@TableName(value ="rw_job")
+@TableName(value = "rw_job")
 @Data
 public class RwJob extends AbstractAuditingEntity implements Serializable {
     /**

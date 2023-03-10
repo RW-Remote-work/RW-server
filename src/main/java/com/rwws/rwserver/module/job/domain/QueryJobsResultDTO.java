@@ -3,6 +3,7 @@ package com.rwws.rwserver.module.job.domain;
 import lombok.Data;
 
 import java.util.Date;
+
 /**
  * mapper.job.JobMapper.queryJobs的查询结果集
  *

@@ -37,13 +37,14 @@ public class RedisService {
 
     /**
      * 生成redis key
+     *
      * @param prefix
      * @param key
      * @return
      */
     public String generateRedisKey(String prefix, String key) {
         SystemEnvironmentEnum currentEnvironment = systemEnvironment.getCurrentEnvironment();
-        return systemEnvironment.getProjectName() + RedisKeyConstant.SEPARATOR + currentEnvironment.getValue() +  RedisKeyConstant.SEPARATOR + prefix + key;
+        return systemEnvironment.getProjectName() + RedisKeyConstant.SEPARATOR + currentEnvironment.getValue() + RedisKeyConstant.SEPARATOR + prefix + key;
     }
 
     public boolean getLock(String key, long expire) {
