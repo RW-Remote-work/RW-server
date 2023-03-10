@@ -6,25 +6,24 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * 职位分类实体
+ * 薪资币种实体
  * @Author ko
- * @Date 2023/3/10 16:13
+ * @Date 2023/3/10 16:29
  * @Version 1.0
  */
 
-
 @Data
-public class JobClass implements Serializable {
+public class MoneyType implements Serializable {
 
-    /** 主键 */
     @TableId
+    /** 主键 */
     private Long id;
 
     /** 职位中文名称 */
-    private String jobChn;
+    private String typeChn;
 
-    /** 职位英文名称 */
-    private String jobEng;
+    /** 币种编码 例如CNY USD EUR BTC 限制为大写 非空 */
+    private String typeCode;
 
     /** 备注 */
     private String remark;
