@@ -1,13 +1,11 @@
 package com.rwws.rwserver.module.system.login.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-import com.rwws.rwserver.exception.BadRequestProblem;
+import com.rwws.rwserver.exception.ResourceNotFoundProblem;
 import com.rwws.rwserver.module.system.login.domain.response.LoginResponse;
 import com.rwws.rwserver.module.system.login.domain.response.RegisterResponse;
-import com.rwws.rwserver.module.user.mapper.UserMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,9 +33,9 @@ public class LoginService {
     public LoginResponse login(String email, String password) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
         if (Objects.isNull(userDetails))
-            throw new BadRequestProblem("Incorrect user or password");
+            throw new ResourceNotFoundProblem("Incorrect user or password");
         if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadRequestProblem("Incorrect user or password");
+            throw new ResourceNotFoundProblem("Incorrect user or password");
         }
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

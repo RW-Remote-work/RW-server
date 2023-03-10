@@ -31,11 +31,11 @@ public class RegisterControllerTest extends BaseTest {
                 """;
         MvcResult mvcResult = this.mockMvc.perform(
                         MockMvcRequestBuilders
-                                .post("/register")
+                                .post("/members")
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(print())
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
@@ -54,7 +54,7 @@ public class RegisterControllerTest extends BaseTest {
                 """;
         MvcResult mvcResult = this.mockMvc.perform(
                         MockMvcRequestBuilders
-                                .post("/register")
+                                .post("/members")
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -62,4 +62,5 @@ public class RegisterControllerTest extends BaseTest {
                 .andDo(print())
                 .andReturn();
     }
+
 }

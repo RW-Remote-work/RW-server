@@ -90,10 +90,10 @@ public class EmailService {
         if (Objects.isNull(host) || Objects.isNull(username) || Objects.isNull(passsword))
             throw new EmailConfigIllegalException();
 
-        MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
-        MimeMessageHelper helper;
-        String randomCode = RandomUtil.randomNumbers(6);
         try {
+            MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
+            MimeMessageHelper helper;
+            String randomCode = RandomUtil.randomNumbers(6);
             TemplateEngine templateEngine = TemplateUtil.createEngine(new TemplateConfig("templates", TemplateConfig.ResourceMode.CLASSPATH));
             Template template = templateEngine.getTemplate("mail-template.ftl");
             String content = template.render(MapUtil.of("code", randomCode));
@@ -102,15 +102,12 @@ public class EmailService {
             helper.setTo(emailDTO.getToEmail());
             helper.setSubject(emailDTO.getSubject());
             helper.setText(content, true);
-        } catch (MessagingException e) {
-            log.error(e.getMessage(), e);
-        }
-
-        try {
             this.javaMailSender.send(mailMessage);
             log.info("Verification code {} email sent successfully", randomCode);
             String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, emailDTO.getToEmail());
             this.redisService.set(redisKey, randomCode, this.codeExpiration);
+        } catch (MessagingException e) {
+            log.error(e.getMessage(), e);
         } catch (MailException ex) {
             log.error(ex.getMessage(), ex);
         }

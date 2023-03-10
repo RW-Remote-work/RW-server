@@ -27,7 +27,7 @@ public class VerifyCodeControllerTest extends BaseTest {
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(print());
         try {
             Thread.sleep(10 * 1000);

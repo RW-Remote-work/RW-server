@@ -22,12 +22,41 @@ public class LoginControllerTest extends BaseTest {
 
     @Test
     public void testLogin() throws Exception {
+        String json = """
+                {
+                    "email": "wublhappy@hotmail.com",
+                    "password": "123456!a"
+                }
+                """;
         MvcResult mvcResult = this.mockMvc.perform(
                         MockMvcRequestBuilders
-                                .get("/slogin?email=wublhappy@hotmail.com&password=123456!a")
+                                .post("/sessions")
+                                .content(json)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andDo(print())
+                .andReturn();
+        String responseBody = mvcResult.getResponse().getContentAsString();
+        LoginResponse loginResponse = JSONUtil.toBean(responseBody, LoginResponse.class);
+        Assertions.assertTrue(StrUtil.isNotEmpty(loginResponse.getToken()));
+    }
+
+    @Test
+    public void testLoginFail() throws Exception {
+        String json = """
+                {
+                    "email": "wublhappy@hotmail.com",
+                    "password": "123456!aaa"
+                }
+                """;
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders
+                                .post("/sessions")
+                                .content(json)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(print())
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
