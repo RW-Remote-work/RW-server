@@ -1,6 +1,5 @@
 package com.rwws.rwserver.module.login.service;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
@@ -32,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Objects;
 import java.util.Set;
 
 @Slf4j
@@ -61,7 +59,7 @@ public class RegisterService {
         this.tokenService = tokenService;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public RegisterResponse register(RegisterRequest registerRequest) {
         // 校验用户已经存在
         boolean exists = this.userMapper.exists(
@@ -73,13 +71,12 @@ public class RegisterService {
         // 校验邮箱的验证码
         String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, registerRequest.getEmail());
         Object verifyCode = this.redisService.get(redisKey);
-        if (Objects.isNull(verifyCode) || !StrUtil.equals((String) verifyCode, registerRequest.getCode())) {
+        if (!registerRequest.getCode().equals(verifyCode)) {
             throw new BadRequestProblem("Email verification code error");
         }
 
         // 新增用户
-        String password = StrUtil.isEmpty(registerRequest.getPassword()) ? PasswordService.DEFAULT_PASSWORD : registerRequest.getPassword();
-        String encryptPwd = this.passwordEncoder.encode(password);
+        String encryptPwd = this.passwordEncoder.encode(registerRequest.getPassword());
         User user = new User();
         user.setLogin(registerRequest.getEmail());
         user.setEmail(registerRequest.getEmail());

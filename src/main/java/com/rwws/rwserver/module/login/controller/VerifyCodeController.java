@@ -24,6 +24,6 @@ public class VerifyCodeController {
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void getVerifyCode(@Validated @RequestBody GetVerifyCodeRequest verifyCodeRequest) {
-        this.emailService.sendVerifyCodeEmail(verifyCodeRequest.getEmail());
+        this.emailService.sendVerifyCode(verifyCodeRequest.getEmail());
     }
 }

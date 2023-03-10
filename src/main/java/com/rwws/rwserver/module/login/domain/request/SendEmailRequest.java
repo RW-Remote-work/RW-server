@@ -1,14 +1,14 @@
-package com.rwws.rwserver.module.login.domain.dto;
+package com.rwws.rwserver.module.login.domain.request;
 
 import lombok.Data;
 
 @Data
-public class EmailDTO {
+public class SendEmailRequest {
 
     /**
      * 目的邮箱
      */
-    private String toEmail;
+    private String to;
 
     /**
      * 邮件主题

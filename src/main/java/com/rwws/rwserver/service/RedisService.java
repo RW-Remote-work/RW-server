@@ -1,11 +1,9 @@
 package com.rwws.rwserver.service;
 
-import cn.hutool.core.util.StrUtil;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.core.domain.SystemEnvironment;
 import com.rwws.rwserver.common.enumer.SystemEnvironmentEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -26,18 +24,14 @@ public class RedisService {
 
     private ValueOperations<String, Object> redisValueOperations;
 
-    private HashOperations<String, String, Object> redisHashOperations;
-
     private SystemEnvironment systemEnvironment;
 
 
     public RedisService(RedisTemplate<String, Object> redisTemplate,
                         ValueOperations<String, Object> redisValueOperations,
-                        HashOperations<String, String, Object> redisHashOperations,
                         SystemEnvironment systemEnvironment) {
         this.redisTemplate = redisTemplate;
         this.redisValueOperations = redisValueOperations;
-        this.redisHashOperations = redisHashOperations;
         this.systemEnvironment = systemEnvironment;
     }
 
@@ -50,22 +44,6 @@ public class RedisService {
     public String generateRedisKey(String prefix, String key) {
         SystemEnvironmentEnum currentEnvironment = systemEnvironment.getCurrentEnvironment();
         return systemEnvironment.getProjectName() + RedisKeyConstant.SEPARATOR + currentEnvironment.getValue() +  RedisKeyConstant.SEPARATOR + prefix + key;
-    }
-
-    /**
-     * redis key 解析成真实的内容
-     * @param redisKey
-     * @return
-     */
-    public static String redisKeyParse(String redisKey) {
-        if(StrUtil.isBlank(redisKey)){
-            return "";
-        }
-        int index = redisKey.lastIndexOf(RedisKeyConstant.SEPARATOR);
-        if(index < 1){
-            return redisKey;
-        }
-        return redisKey.substring(index);
     }
 
     public boolean getLock(String key, long expire) {

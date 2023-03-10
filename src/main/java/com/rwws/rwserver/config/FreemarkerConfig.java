@@ -1,0 +1,25 @@
+package com.rwws.rwserver.config;
+
+import freemarker.template.Template;
+import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.ui.freemarker.SpringTemplateLoader;
+
+
+@Configuration
+public class FreemarkerConfig {
+    private final FreeMarkerProperties properties;
+
+    public FreemarkerConfig(FreeMarkerProperties properties) {
+        this.properties = properties;
+    }
+
+    @Bean
+    public Template mailTemplate() throws Exception {
+        var cfg = new freemarker.template.Configuration();
+        cfg.setTemplateLoader(new SpringTemplateLoader(new DefaultResourceLoader(), "/templates/"));
+        return cfg.getTemplate("mail-template.ftlh");
+    }
+}

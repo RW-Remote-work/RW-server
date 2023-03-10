@@ -1,90 +1,67 @@
 package com.rwws.rwserver.module.login.service;
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.RandomUtil;
-import cn.hutool.extra.template.Template;
-import cn.hutool.extra.template.TemplateConfig;
-import cn.hutool.extra.template.TemplateEngine;
-import cn.hutool.extra.template.TemplateUtil;
+
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
-import com.rwws.rwserver.common.constant.RegexPatternFactory;
-import com.rwws.rwserver.module.login.domain.dto.EmailDTO;
-import com.rwws.rwserver.module.login.exception.EmailConfigIllegalException;
+import com.rwws.rwserver.module.login.domain.request.SendEmailRequest;
 import com.rwws.rwserver.service.RedisService;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.util.Objects;
-import java.util.regex.Matcher;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @Slf4j
 public class EmailService {
-    @Value("${spring.mail.host}")
-    private String host;
+    private final static Long CODE_EXPIRATION = 300L;
 
-    @Value("${spring.mail.username}")
-    private String username;
-
-    @Value("${spring.mail.password}")
-    private String passsword;
-
-    @Value("${spring.mail.code.expiration}")
-    private Long codeExpiration;
-
-    private JavaMailSender javaMailSender;
-    private ThreadPoolTaskExecutor taskExecutor;
-    private RedisService redisService;
+    private final JavaMailSender javaMailSender;
+    private final RedisService redisService;
+    private final MailProperties mailProperties;
+    private final Template mailTemplate;
 
     public EmailService(JavaMailSender javaMailSender,
                         RedisService redisService,
-                        @Qualifier("mailThreadPool") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+                        MailProperties mailProperties,
+                        Template mailTemplate) {
         this.javaMailSender = javaMailSender;
-        this.taskExecutor = threadPoolTaskExecutor;
         this.redisService = redisService;
-    }
-
-    /**
-     * 校验Email格式
-     * @param email
-     * @return
-     */
-    public boolean checkEmail(String email) {
-        if (Objects.isNull(email))
-            return false;
-
-        Matcher matcher = RegexPatternFactory.emailPattern().matcher(email);
-        return matcher.find();
+        this.mailProperties = mailProperties;
+        this.mailTemplate = mailTemplate;
     }
 
     /**
      * 发送验证码邮件
+     *
      * @param email
      */
-    public void sendVerifyCodeEmail(String email) {
-        EmailDTO emailDTO = new EmailDTO();
-        emailDTO.setToEmail(email);
-        emailDTO.setSubject("RW社区验证码");
-        this.send(emailDTO);
+    public void sendVerifyCode(String email) {
+        var request = new SendEmailRequest();
+        request.setTo(email);
+        request.setSubject("RW社区验证码");
+        this.send(request);
     }
 
     /**
      * 发送邮件
-     * @param emailDTO
+     *
+     * @param request
      */
     @Async
-    public void send(EmailDTO emailDTO) {
-        if (Objects.isNull(host) || Objects.isNull(username) || Objects.isNull(passsword))
-            throw new EmailConfigIllegalException();
+    public void send(SendEmailRequest request) {
+        var mailMessage = this.javaMailSender.createMimeMessage();
+        MimeMessageHelper helper;
+        var code = ThreadLocalRandom.current().nextInt(0, 6);
 
         try {
             MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
