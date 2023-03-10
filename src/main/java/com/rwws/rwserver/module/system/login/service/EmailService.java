@@ -6,23 +6,17 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.rwws.rwserver.common.constant.RedisConstant;
+import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.constant.RegexPatternFactory;
-import com.rwws.rwserver.common.util.RWFileUtil;
+import com.rwws.rwserver.module.support.service.RedisService;
 import com.rwws.rwserver.module.system.login.domain.dto.EmailDTO;
 import com.rwws.rwserver.module.system.login.exception.EmailConfigIllegalException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.mail.MailAuthenticationException;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSendException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -30,7 +24,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.nio.charset.StandardCharsets;
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -52,14 +45,14 @@ public class EmailService {
 
     private JavaMailSenderImpl javaMailSender;
     private ThreadPoolTaskExecutor taskExecutor;
-    private ValueOperations<String, Object> valueOperations;
+    private RedisService redisService;
 
     public EmailService(JavaMailSenderImpl javaMailSender,
-                        ValueOperations<String, Object> valueOperations,
+                        RedisService redisService,
                         @Qualifier("mailThreadPool") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.javaMailSender = javaMailSender;
         this.taskExecutor = threadPoolTaskExecutor;
-        this.valueOperations = valueOperations;
+        this.redisService = redisService;
     }
 
     /**
@@ -114,7 +107,8 @@ public class EmailService {
         this.taskExecutor.execute(() -> {
             try {
                 this.javaMailSender.send(mailMessage);
-                this.valueOperations.set(RedisConstant.getEmailCodeKey(emailDTO.getToEmail()), randomCode, this.codeExpiration, TimeUnit.SECONDS);
+                String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, emailDTO.getToEmail());
+                this.redisService.set(redisKey, randomCode, this.codeExpiration);
             } catch (MailException ex) {
                 log.error(ex.getMessage(), ex);
             }

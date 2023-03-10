@@ -1,6 +1,5 @@
 package com.rwws.rwserver.security;
 
-import com.rwws.rwserver.common.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.rwws.rwserver.common.util;
+package com.rwws.rwserver.module.system.login.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -25,8 +26,8 @@ import java.util.Map;
  * HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret)
  */
 @Slf4j
-@Component
-public class JwtTokenUtil {
+@Service
+public class JwtTokenService {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
     @Value("${jwt.secret}")
