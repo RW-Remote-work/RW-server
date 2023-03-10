@@ -19,6 +19,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
@@ -84,12 +85,12 @@ public class EmailService {
      * 发送邮件
      * @param emailDTO
      */
+    @Async
     public void send(EmailDTO emailDTO) {
         if (Objects.isNull(host) || Objects.isNull(username) || Objects.isNull(passsword))
             throw new EmailConfigIllegalException();
 
         MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
-//        this.javaMailSender.send(StandardCharsets.UTF_8.toString());
         MimeMessageHelper helper;
         String randomCode = RandomUtil.randomNumbers(6);
         try {
@@ -105,14 +106,13 @@ public class EmailService {
             log.error(e.getMessage(), e);
         }
 
-        this.taskExecutor.execute(() -> {
-            try {
-                this.javaMailSender.send(mailMessage);
-                String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, emailDTO.getToEmail());
-                this.redisService.set(redisKey, randomCode, this.codeExpiration);
-            } catch (MailException ex) {
-                log.error(ex.getMessage(), ex);
-            }
-        });
+        try {
+            this.javaMailSender.send(mailMessage);
+            log.info("Verification code {} email sent successfully", randomCode);
+            String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, emailDTO.getToEmail());
+            this.redisService.set(redisKey, randomCode, this.codeExpiration);
+        } catch (MailException ex) {
+            log.error(ex.getMessage(), ex);
+        }
     }
 }

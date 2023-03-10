@@ -8,6 +8,8 @@ public class PasswordService {
 
     private static final String PASSWORD_SALT_FORMAT = "remote_%s_work_$^&*";
 
+    public static final String DEFAULT_PASSWORD = "xyz123$!";
+
     public String getEncryptPwd(String password) {
         return SecureUtil.md5().digestHex(String.format(PASSWORD_SALT_FORMAT, password));
     }

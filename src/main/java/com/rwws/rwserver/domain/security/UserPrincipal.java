@@ -17,6 +17,7 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
     private final String email;
     private final boolean activated = true;
     private final Set<Authority> authorities;
+    private final User user;
 
     public UserPrincipal(User user, Set<Authority> authorities) {
         this.id = user.getId();
@@ -25,6 +26,7 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
         this.displayName = user.getDisplayName();
         this.email = user.getEmail();
         this.authorities = authorities;
+        this.user = user;
     }
 
 
@@ -66,5 +68,9 @@ public class UserPrincipal implements UserDetails, CredentialsContainer {
     @Override
     public boolean isEnabled() {
         return this.activated;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 }

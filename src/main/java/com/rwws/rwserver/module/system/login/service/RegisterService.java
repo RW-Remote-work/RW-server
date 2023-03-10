@@ -1,7 +1,9 @@
 package com.rwws.rwserver.module.system.login.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
+import com.rwws.rwserver.common.constant.ZoneIdConstant;
 import com.rwws.rwserver.common.util.RWRequestUtil;
 import com.rwws.rwserver.domain.security.Authority;
 import com.rwws.rwserver.domain.security.User;
@@ -15,10 +17,13 @@ import com.rwws.rwserver.module.user.mapper.UserAuthorityMapper;
 import com.rwws.rwserver.module.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,24 +35,33 @@ public class RegisterService {
 
     private UserAuthorityMapper userAuthorityMapper;
 
-    private PasswordService passwordService;
+    private PasswordEncoder passwordEncoder;
 
     private JwtTokenService tokenService;
 
     private RedisService redisService;
 
     public RegisterService(UserMapper userMapper,
+                           UserAuthorityMapper userAuthorityMapper,
                            RedisService redisService,
-                           PasswordService passwordService,
+                           PasswordEncoder passwordEncoder,
                            JwtTokenService tokenService) {
         this.userMapper = userMapper;
+        this.userAuthorityMapper = userAuthorityMapper;
         this.redisService = redisService;
-        this.passwordService = passwordService;
+        this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public RegisterResponse register(RegisterRequest registerRequest) {
+        // 校验用户已经存在
+        boolean exists = this.userMapper.exists(
+                new QueryWrapper<User>().eq("email", registerRequest.getEmail())
+        );
+        if (exists)
+            throw new BadRequestProblem("The email exists");
+
         // 校验邮箱的验证码
         String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, registerRequest.getEmail());
         Object verifyCode = this.redisService.get(redisKey);
@@ -56,13 +70,16 @@ public class RegisterService {
         }
 
         // 新增用户
-        String password = this.passwordService.getEncryptPwd(registerRequest.getPassword());
+        String password = StrUtil.isEmpty(registerRequest.getPassword()) ? PasswordService.DEFAULT_PASSWORD : registerRequest.getPassword();
+        String encryptPwd = this.passwordEncoder.encode(password);
         User user = new User();
         user.setLogin(registerRequest.getEmail());
         user.setEmail(registerRequest.getEmail());
-        user.setPassword(password);
+        user.setDisplayName(registerRequest.getEmail());
+        user.setPassword(encryptPwd);
         user.setActivated(Boolean.TRUE);
-        user.setCreatedBy(String.valueOf(RWRequestUtil.getRequestUser().getUserId()));
+        if (null != RWRequestUtil.getRequestUser())
+            user.setCreatedBy(String.valueOf(RWRequestUtil.getRequestUser().getUserId()));
         user.setCreatedDate(Instant.now());
         this.userMapper.insert(user);
 
@@ -76,9 +93,12 @@ public class RegisterService {
         UserDetails userDetails = new UserPrincipal(user, Set.of(Authority.REGULAR_USER));
         String token = this.tokenService.generateToken(userDetails);
         RegisterResponse.UserVO userVO = new RegisterResponse.UserVO();
-        userVO.setToken(token);
+        userVO.setEmail(user.getEmail());
+        userVO.setLogin(user.getLogin());
+        userVO.setCreateDate(LocalDateTime.ofInstant(user.getCreatedDate(), ZoneId.of(ZoneIdConstant.CHINA_STANDARD)));
         RegisterResponse registerResponse = new RegisterResponse();
         registerResponse.setUserVO(userVO);
+        registerResponse.setToken(token);
 
         return registerResponse;
     }

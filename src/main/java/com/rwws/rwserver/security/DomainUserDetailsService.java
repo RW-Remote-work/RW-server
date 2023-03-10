@@ -31,11 +31,11 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userMapper.selectOne(
                 new QueryWrapper<User>()
-                        .ge("activated", true)
-                        .or(
-                                it -> it.ge("login", username)
+                        .eq("activated", true)
+                        .and(
+                                it -> it.eq("login", username)
                                         .or()
-                                        .ge("email", username)
+                                        .eq("email", username)
                         )
         );
         if (user == null) throw new UsernameNotFoundException("User " + username + " does not exist.");

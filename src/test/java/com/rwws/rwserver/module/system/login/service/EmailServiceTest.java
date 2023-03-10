@@ -17,7 +17,7 @@ public class EmailServiceTest extends BaseTest {
         emailDTO.setSubject("RW社区邮箱验证码");
         this.emailService.send(emailDTO);
         try {
-            Thread.sleep(10 * 1000);
+            Thread.sleep(20 * 1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
