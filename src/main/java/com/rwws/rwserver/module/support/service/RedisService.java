@@ -1,12 +1,13 @@
 package com.rwws.rwserver.module.support.service;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
 import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.core.domain.SystemEnvironment;
 import com.rwws.rwserver.common.enumer.SystemEnvironmentEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -21,35 +22,22 @@ import java.util.concurrent.TimeUnit;
 @Service
 @Slf4j
 public class RedisService {
-
-    private StringRedisTemplate stringRedisTemplate;
-
     private RedisTemplate<String, Object> redisTemplate;
 
     private ValueOperations<String, Object> redisValueOperations;
 
     private HashOperations<String, String, Object> redisHashOperations;
 
-    private ListOperations<String, Object> redisListOperations;
-
-    private SetOperations<String, Object> redisSetOperations;
-
     private SystemEnvironment systemEnvironment;
 
 
-    public RedisService(StringRedisTemplate stringRedisTemplate,
-                        RedisTemplate<String, Object> redisTemplate,
+    public RedisService(RedisTemplate<String, Object> redisTemplate,
                         ValueOperations<String, Object> redisValueOperations,
                         HashOperations<String, String, Object> redisHashOperations,
-                        ListOperations<String, Object> redisListOperations,
-                        SetOperations<String, Object> redisSetOperations,
                         SystemEnvironment systemEnvironment) {
-        this.stringRedisTemplate = stringRedisTemplate;
         this.redisTemplate = redisTemplate;
         this.redisValueOperations = redisValueOperations;
         this.redisHashOperations = redisHashOperations;
-        this.redisListOperations = redisListOperations;
-        this.redisSetOperations = redisSetOperations;
         this.systemEnvironment = systemEnvironment;
     }
 
@@ -96,7 +84,7 @@ public class RedisService {
      * @return
      */
     public boolean expire(String key, long time) {
-        return redisTemplate.expire(key, time, TimeUnit.SECONDS);
+        return Boolean.TRUE.equals(redisTemplate.expire(key, time, TimeUnit.SECONDS));
     }
 
     /**
@@ -168,15 +156,6 @@ public class RedisService {
         return key == null ? null : redisValueOperations.get(key);
     }
 
-    public <T> T getObject(String key, Class<T> clazz) {
-        Object json = this.get(key);
-        if (json == null) {
-            return null;
-        }
-        T obj = JSON.parseObject(json.toString(), clazz);
-        return obj;
-    }
-
 
     /**
      * 普通缓存放入
@@ -185,36 +164,11 @@ public class RedisService {
         redisValueOperations.set(key, value);
     }
 
-    public void set(Object key, Object value) {
-        String jsonString = JSON.toJSONString(value);
-        redisValueOperations.set(key.toString(), jsonString);
-    }
 
     /**
      * 普通缓存放入
      */
     public void set(String key, Object value, long second) {
         redisValueOperations.set(key, value, second, TimeUnit.SECONDS);
-    }
-
-    /**
-     * 普通缓存放入并设置时间
-     */
-    public void set(Object key, Object value, long time) {
-        String jsonString = JSON.toJSONString(value);
-        if (time > 0) {
-            redisValueOperations.set(key.toString(), jsonString, time, TimeUnit.SECONDS);
-        } else {
-            set(key.toString(), jsonString);
-        }
-    }
-
-    //============================ map =============================
-    public void mset(String key, String hashKey, Object value) {
-        redisHashOperations.put(key, hashKey, value);
-    }
-
-    public Object mget(String key, String hashKey) {
-        return redisHashOperations.get(key, hashKey);
     }
 }
