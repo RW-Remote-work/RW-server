@@ -39,7 +39,7 @@ public class JobController {
 
     @PostMapping("/addJob")
     public void addJob(@AuthenticationPrincipal UserPrincipal _principal,
-                         @Validated @RequestBody AddRwJobRequest request) {
+                       @Validated @RequestBody AddRwJobRequest request) {
 
         log.info(request.toString());
         RwJob rwJob = RwJobTransfer.INSTANCE.dtoToBean(request);
