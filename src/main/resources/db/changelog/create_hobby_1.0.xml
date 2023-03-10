@@ -6,13 +6,13 @@
 
     <changeSet id="1" author="Jinhan He">
         <createTable tableName="hobby">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" remarks="主键">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(10)">
+            <column name="name" type="varchar(10)" remarks="名称">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
+            <column name="user_id" type="bigint" remarks="用户ID">
                 <constraints nullable="false"/>
             </column>
         </createTable>
