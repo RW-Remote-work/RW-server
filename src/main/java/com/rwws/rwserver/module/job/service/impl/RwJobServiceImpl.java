@@ -1,6 +1,9 @@
 package com.rwws.rwserver.module.job.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.rwws.rwserver.module.job.domain.QueryJobsParamDTO;
+import com.rwws.rwserver.module.job.domain.QueryJobsResultDTO;
 import com.rwws.rwserver.module.job.domain.RwJob;
 import com.rwws.rwserver.module.job.service.RwJobService;
 import com.rwws.rwserver.module.job.mapper.RwJobMapper;
@@ -17,6 +20,10 @@ import org.springframework.stereotype.Service;
 public class RwJobServiceImpl extends ServiceImpl<RwJobMapper, RwJob>
     implements RwJobService{
 
+    @Override
+    public Page<QueryJobsResultDTO> queryJobs(Page<QueryJobsResultDTO> pageParam, QueryJobsParamDTO params) {
+        return baseMapper.queryJobs(pageParam, params);
+    }
 }
 
 

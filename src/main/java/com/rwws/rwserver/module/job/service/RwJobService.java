@@ -1,5 +1,8 @@
 package com.rwws.rwserver.module.job.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rwws.rwserver.module.job.domain.QueryJobsParamDTO;
+import com.rwws.rwserver.module.job.domain.QueryJobsResultDTO;
 import com.rwws.rwserver.module.job.domain.RwJob;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface RwJobService extends IService<RwJob> {
 
+
+    Page<QueryJobsResultDTO> queryJobs(Page<QueryJobsResultDTO> pageParam, QueryJobsParamDTO params);
 }
