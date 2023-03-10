@@ -1,5 +1,3 @@
-project:
-  name: remote-work
 spring:
   profiles:
     active: @profileActive@
@@ -7,6 +5,8 @@ spring:
     change-log: classpath:db/master.xml
     database-change-log-table: rw_databasechangelog
     database-change-log-lock-table: rw_databasechangeloglock
+  application:
+    name: remote-work-server
 server:
   port: 10086
 mybatis-plus:

@@ -7,8 +7,6 @@ spring:
     host: smtp.163.com
     username: beiding92@163.com
     password: KWLRIHTLERXQVDTI
-    code:
-      expiration: 300
   redis:
     database: 1
     host: 127.0.0.1
@@ -24,10 +22,13 @@ spring:
   liquibase:
     enabled: true
 jwt:
-  tokenHeader: Authorization #JWT存储的请求头
   secret: rw-admin-secret #JWT加解密使用的密钥
-  expiration: 18000 #JWT的超期限时间(60*60*5)
-  tokenHead: 'Bearer '  #JWT负载中拿到开头
+  expiration:
+    duration: 1
+    unit: DAYS
 thread:
   core-pool-size: 4
   queue-capacity: 1000
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

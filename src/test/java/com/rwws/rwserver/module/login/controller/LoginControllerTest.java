@@ -1,9 +1,9 @@
 package com.rwws.rwserver.module.login.controller;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rwws.rwserver.BaseTest;
-import com.rwws.rwserver.module.login.domain.response.LoginResponse;
+import com.rwws.rwserver.controller.response.LoginResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ public class LoginControllerTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void testLogin() throws Exception {
@@ -38,8 +40,8 @@ public class LoginControllerTest extends BaseTest {
                 .andDo(print())
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
-        LoginResponse loginResponse = JSONUtil.toBean(responseBody, LoginResponse.class);
-        Assertions.assertTrue(StrUtil.isNotEmpty(loginResponse.getToken()));
+        LoginResponse loginResponse = objectMapper.readValue(responseBody, LoginResponse.class);
+        Assertions.assertFalse(loginResponse.getToken().isEmpty());
     }
 
     @Test
@@ -60,7 +62,7 @@ public class LoginControllerTest extends BaseTest {
                 .andDo(print())
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
-        LoginResponse loginResponse = JSONUtil.toBean(responseBody, LoginResponse.class);
-        Assertions.assertTrue(StrUtil.isNotEmpty(loginResponse.getToken()));
+        LoginResponse loginResponse = objectMapper.readValue(responseBody, LoginResponse.class);
+        Assertions.assertFalse(loginResponse.getToken().isEmpty());
     }
 }

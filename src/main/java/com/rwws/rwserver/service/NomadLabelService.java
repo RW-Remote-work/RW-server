@@ -1,7 +1,7 @@
 package com.rwws.rwserver.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rwws.rwserver.domain.JobClass;
+import com.rwws.rwserver.controller.request.AddNomadLabelRequest;
 import com.rwws.rwserver.domain.NomadLabel;
 import com.rwws.rwserver.exception.BadRequestProblem;
 import com.rwws.rwserver.mapper.NomadLabelMapper;
@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * 游民标签服务层
+ *
  * @Author ko
  * @Date 2023/3/10 20:18
  * @Version 1.0
@@ -27,39 +28,36 @@ public class NomadLabelService {
 
     /**
      * 获取所有游民标签
-     * @author keyi
-     * @Date 2023/3/10 20:20
+     *
      * @param
      * @return
+     * @author keyi
+     * @Date 2023/3/10 20:20
      */
-    public List<NomadLabel> list(){
+    public List<NomadLabel> list() {
         return this.nomadLabelMapper.selectList(null);
     }
 
     /**
      * 新增游民标签
+     *
+     * @param request 游民标签
+     * @return
      * @author keyi
      * @Date 2023/3/10 20:22
-     * @param nomadLabel 游民标签
-     * @return
      */
-    public void add(NomadLabel nomadLabel){
+    public void add(AddNomadLabelRequest request) {
+        request.getNomadLabels().forEach(this::add);
+    }
 
-        //检查游民标签内容是否为空
-        if(nomadLabel.getLabelContent()!=null&&!"".equals(nomadLabel.getLabelContent())){
-            throw new BadRequestProblem("游民标签内容不能为空");
-        }
-
-        //检查表里是否存在相同的数据
-        QueryWrapper<NomadLabel> queryWrapper = new QueryWrapper<NomadLabel>().eq("label_content",nomadLabel.getLabelContent());
-        NomadLabel one = this.nomadLabelMapper.selectOne(queryWrapper);
-        if(one!=null){
+    private void add(AddNomadLabelRequest.NomadLabel label) {
+        var queryWrapper = new QueryWrapper<NomadLabel>().eq("label_content", label.getLabelContent());
+        if (nomadLabelMapper.exists(queryWrapper)) {
             throw new BadRequestProblem("该游民标签已存在，请勿重复添加");
         }
-        nomadLabel.setId(null);
-
+        var nomadLabel = new NomadLabel();
+        nomadLabel.setLabelContent(label.getLabelContent());
+        nomadLabel.setRemark(label.getRemark());
         this.nomadLabelMapper.insert(nomadLabel);
-
-
     }
 }

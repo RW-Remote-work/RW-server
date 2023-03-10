@@ -1,7 +1,8 @@
 package com.rwws.rwserver.module.login.service;
 
 import com.rwws.rwserver.BaseTest;
-import com.rwws.rwserver.module.login.domain.dto.EmailDTO;
+import com.rwws.rwserver.controller.request.SendEmailRequest;
+import com.rwws.rwserver.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,10 +13,10 @@ public class EmailServiceTest extends BaseTest {
 
     @Test
     public void testSend() {
-        EmailDTO emailDTO = new EmailDTO();
-        emailDTO.setToEmail("wublhappy@hotmail.com");
-        emailDTO.setSubject("RW社区邮箱验证码");
-        this.emailService.send(emailDTO);
+        SendEmailRequest sendEmailRequest = new SendEmailRequest();
+        sendEmailRequest.setTo("wublhappy@hotmail.com");
+        sendEmailRequest.setSubject("RW社区邮箱验证码");
+        this.emailService.send(sendEmailRequest);
         try {
             Thread.sleep(20 * 1000);
         } catch (InterruptedException e) {
