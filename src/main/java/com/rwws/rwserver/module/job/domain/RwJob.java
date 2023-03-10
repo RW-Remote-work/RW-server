@@ -35,7 +35,7 @@ public class RwJob extends AbstractAuditingEntity implements Serializable {
     /**
      * 职位分类ID
      */
-    private Long jobCategoryId;
+    private Long jobClassId;
 
     /**
      * 工作类型（1:全职远程/2:兼职远程）
@@ -75,7 +75,7 @@ public class RwJob extends AbstractAuditingEntity implements Serializable {
     /**
      * 薪资币种
      */
-    private Long salaryCurrency;
+    private Long moneyTypeId;
 
     /**
      * min薪资
