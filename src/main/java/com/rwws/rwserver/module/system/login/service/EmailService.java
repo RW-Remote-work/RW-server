@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -43,11 +44,11 @@ public class EmailService {
     @Value("${spring.mail.code.expiration}")
     private Long codeExpiration;
 
-    private JavaMailSenderImpl javaMailSender;
+    private JavaMailSender javaMailSender;
     private ThreadPoolTaskExecutor taskExecutor;
     private RedisService redisService;
 
-    public EmailService(JavaMailSenderImpl javaMailSender,
+    public EmailService(JavaMailSender javaMailSender,
                         RedisService redisService,
                         @Qualifier("mailThreadPool") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.javaMailSender = javaMailSender;
@@ -88,7 +89,7 @@ public class EmailService {
             throw new EmailConfigIllegalException();
 
         MimeMessage mailMessage = this.javaMailSender.createMimeMessage();
-        this.javaMailSender.setDefaultEncoding(StandardCharsets.UTF_8.toString());
+//        this.javaMailSender.send(StandardCharsets.UTF_8.toString());
         MimeMessageHelper helper;
         String randomCode = RandomUtil.randomNumbers(6);
         try {
