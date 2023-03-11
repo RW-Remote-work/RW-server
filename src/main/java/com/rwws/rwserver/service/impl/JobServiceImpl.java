@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class RwJobServiceImpl extends ServiceImpl<JobMapper, Job>
+public class JobServiceImpl extends ServiceImpl<JobMapper, Job>
         implements RwJobService {
 
     @Override
