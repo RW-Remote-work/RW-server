@@ -42,7 +42,7 @@ public class RegisterControllerTest extends BaseTest {
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
         RegisterResponse registerResponse = objectMapper.readValue(responseBody, RegisterResponse.class);
-        Assertions.assertTrue(StrUtil.isNotEmpty(registerResponse.getToken()));
+        Assertions.assertFalse(registerResponse.getToken().isEmpty());
     }
 
     @Test
