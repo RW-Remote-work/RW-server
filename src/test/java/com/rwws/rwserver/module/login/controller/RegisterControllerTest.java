@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.login.controller;
 
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rwws.rwserver.BaseTest;
 import com.rwws.rwserver.controller.response.RegisterResponse;
 import org.junit.jupiter.api.Assertions;
@@ -19,6 +19,8 @@ public class RegisterControllerTest extends BaseTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void testRegister() throws Exception {
@@ -39,7 +41,7 @@ public class RegisterControllerTest extends BaseTest {
                 .andDo(print())
                 .andReturn();
         String responseBody = mvcResult.getResponse().getContentAsString();
-        RegisterResponse registerResponse = JSONUtil.toBean(responseBody, RegisterResponse.class);
+        RegisterResponse registerResponse = objectMapper.readValue(responseBody, RegisterResponse.class);
         Assertions.assertTrue(StrUtil.isNotEmpty(registerResponse.getToken()));
     }
 

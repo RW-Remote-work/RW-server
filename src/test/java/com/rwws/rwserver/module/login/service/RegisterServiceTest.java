@@ -1,6 +1,6 @@
 package com.rwws.rwserver.module.login.service;
 
-import cn.hutool.core.util.StrUtil;
+
 import com.rwws.rwserver.BaseTest;
 import com.rwws.rwserver.controller.request.RegisterRequest;
 import com.rwws.rwserver.controller.response.RegisterResponse;
@@ -22,9 +22,7 @@ public class RegisterServiceTest extends BaseTest {
         registerRequest.setEmail("wublhappy@hotmail.com");
         registerRequest.setCode("390282");
         RegisterResponse registerResponse = this.registerService.register(registerRequest);
-        Assertions.assertTrue(registerResponse != null);
-        Assertions.assertTrue(StrUtil.isNotEmpty(registerResponse.getToken()));
-        System.out.println(String.format("Token {0}", registerResponse.getToken()));
+        Assertions.assertFalse(registerResponse.getToken().isEmpty());
     }
 
     @Test
