@@ -5,7 +5,7 @@ import com.rwws.rwserver.controller.request.job.AddJobRequest;
 import com.rwws.rwserver.controller.request.job.ListJobRequest;
 import com.rwws.rwserver.controller.response.job.ListJobResponse;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-import com.rwws.rwserver.service.JobService;
+import com.rwws.rwserver.service.job.JobService;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;

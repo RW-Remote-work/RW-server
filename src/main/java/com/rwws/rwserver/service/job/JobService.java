@@ -1,4 +1,4 @@
-package com.rwws.rwserver.service;
+package com.rwws.rwserver.service.job;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -6,7 +6,7 @@ import com.rwws.rwserver.controller.request.job.AddJobRequest;
 import com.rwws.rwserver.controller.request.job.ListJobRequest;
 import com.rwws.rwserver.controller.response.job.ListJobResponse;
 import com.rwws.rwserver.domain.Job;
-import com.rwws.rwserver.mapper.JobMapper;
+import com.rwws.rwserver.mapper.job.JobMapper;
 import com.rwws.rwserver.transfer.JobTransfer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

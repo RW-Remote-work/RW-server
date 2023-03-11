@@ -1,4 +1,4 @@
-package com.rwws.rwserver.mapper;
+package com.rwws.rwserver.mapper.job;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rwws.rwserver.domain.JobApprove;

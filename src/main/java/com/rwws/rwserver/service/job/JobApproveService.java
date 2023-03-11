@@ -1,4 +1,4 @@
-package com.rwws.rwserver.service;
+package com.rwws.rwserver.service.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
