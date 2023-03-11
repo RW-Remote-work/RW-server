@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rwws.rwserver.module.job.mapper.JobMapper">
+<mapper namespace="com.rwws.rwserver.mapper.JobMapper">
 
-    <resultMap id="BaseResultMap" type="com.rwws.rwserver.module.job.domain.Job">
+    <resultMap id="BaseResultMap" type="com.rwws.rwserver.domain.Job">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="jobCode" column="job_code" jdbcType="VARCHAR"/>
         <result property="jobName" column="job_name" jdbcType="VARCHAR"/>
@@ -51,7 +51,7 @@
         created_date,last_modified_by,last_modified_date
     </sql>
 
-    <resultMap id="QueryJobsResultDTOMap" type="com.rwws.rwserver.module.job.domain.QueryJobsResultDTO">
+    <resultMap id="QueryJobsResultDTOMap" type="com.rwws.rwserver.transfer.QueryJobsResultDTO">
         <result column="id" property="id"/>
         <result column="job_code" property="jobCode"/>
         <result column="job_name" property="jobName"/>
@@ -86,7 +86,7 @@
     </resultMap>
 
     <select id="queryJobs" resultMap="QueryJobsResultDTOMap"
-            parameterType="com.rwws.rwserver.module.job.domain.QueryJobsParamDTO">
+            parameterType="com.rwws.rwserver.transfer.QueryJobsParamDTO">
         select j.id,job_code,job_name, job_class_id, c.job_chn as jobClassChn, c.job_eng as jobClassEng, job_type,
         region_id, r.chn_name as regionNameChn, r.eng_name as regionNameEng, deliver_website,salary_type, money_type_id,
         m.type_chn as moneyTypeChn, m.type_code as moneyTypeCode, salary_min,salary_max,job_description,

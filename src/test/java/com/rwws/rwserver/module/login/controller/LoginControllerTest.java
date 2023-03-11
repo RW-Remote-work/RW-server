@@ -3,7 +3,7 @@ package com.rwws.rwserver.module.login.controller;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.rwws.rwserver.BaseTest;
-import com.rwws.rwserver.module.login.domain.response.LoginResponse;
+import com.rwws.rwserver.controller.response.LoginResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

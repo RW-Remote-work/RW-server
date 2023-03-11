@@ -1,7 +1,8 @@
 package com.rwws.rwserver.module.login.service;
 
 import com.rwws.rwserver.BaseTest;
-import com.rwws.rwserver.module.login.domain.request.SendEmailRequest;
+import com.rwws.rwserver.controller.request.SendEmailRequest;
+import com.rwws.rwserver.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
