@@ -12,6 +12,7 @@ public class RWFileUtil {
 
     /**
      * 获取Resource Path 路径下文件内容
+     *
      * @param resourcePath
      * @return
      */

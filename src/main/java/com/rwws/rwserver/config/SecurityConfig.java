@@ -41,7 +41,7 @@ public class SecurityConfig {
         this.problemSupport = problemSupport;
         this.userDetailsService = userDetailsService;
         this.sessionRegistry = sessionRegistry;
-        this.jwtAuthenticationTokenFilter= jwtAuthenticationTokenFilter;
+        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
     }
 
     @Bean
@@ -49,6 +49,7 @@ public class SecurityConfig {
         return http
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .ignoringAntMatchers("/verifycodes", "/members", "/sessions")
                 .and()
                 .rememberMe()
                 .key(properties.getRememberMeKey())

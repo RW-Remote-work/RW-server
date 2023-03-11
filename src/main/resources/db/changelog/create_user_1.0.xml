@@ -6,32 +6,32 @@
 
     <changeSet id="1" author="Jinhan He">
         <createTable tableName="user">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" remarks="主键">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="login" type="varchar(255)">
+            <column name="login" type="varchar(255)" remarks="登录名称">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="password" type="varchar(255)">
+            <column name="password" type="varchar(255)" remarks="登陆密码">
                 <constraints nullable="false"/>
             </column>
-            <column name="display_name" type="varchar(255)">
+            <column name="display_name" type="varchar(255)" remarks="显示名称">
                 <constraints nullable="false"/>
             </column>
-            <column name="email" type="varchar(100)">
+            <column name="email" type="varchar(100)" remarks="邮箱">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="activated" type="boolean">
+            <column name="activated" type="boolean" remarks="是否激活">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="varchar(255)">
+            <column name="created_by" type="varchar(255)" remarks="创建人">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_date" type="datetime">
+            <column name="created_date" type="datetime" remarks="创建时间">
                 <constraints nullable="false"/>
             </column>
-            <column name="last_modified_by" type="varchar(255)"/>
-            <column name="last_modified_date" type="datetime"/>
+            <column name="last_modified_by" type="varchar(255)" remarks="修改人"/>
+            <column name="last_modified_date" type="datetime" remarks="修改时间"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

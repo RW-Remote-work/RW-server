@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd"
+                   objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+
+    <changeSet id="1" author="ko">
+        <createTable tableName="nomad_label" remarks="游民标签表">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <!-- remarks="标签内容" -->
+            <column name="label_content" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="remark" type="varchar(500)" remarks="备注">
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

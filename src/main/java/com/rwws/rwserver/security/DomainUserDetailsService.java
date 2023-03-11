@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
-import com.rwws.rwserver.module.user.mapper.UserAuthorityMapper;
-import com.rwws.rwserver.module.user.mapper.UserMapper;
+import com.rwws.rwserver.module.system.user.mapper.UserAuthorityMapper;
+import com.rwws.rwserver.module.system.user.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,11 +31,11 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userMapper.selectOne(
                 new QueryWrapper<User>()
-                        .ge("activated", true)
-                        .or(
-                                it -> it.ge("login", username)
+                        .eq("activated", true)
+                        .and(
+                                it -> it.eq("login", username)
                                         .or()
-                                        .ge("email", username)
+                                        .eq("email", username)
                         )
         );
         if (user == null) throw new UsernameNotFoundException("User " + username + " does not exist.");

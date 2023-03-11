@@ -1,8 +1,11 @@
 package com.rwws.rwserver;
 
-import com.rwws.rwserver.RwServerApplication;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(classes = RwServerApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = RwServerApplication.class)
+@AutoConfigureMockMvc
+@ActiveProfiles("dev")
 public class BaseTest {
 }
