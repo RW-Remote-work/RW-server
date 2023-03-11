@@ -4,10 +4,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface RwJobTransfer {
-    RwJobTransfer INSTANCE = Mappers.getMapper(RwJobTransfer.class);
+public interface JobTransfer {
+    JobTransfer INSTANCE = Mappers.getMapper(JobTransfer.class);
 
     //    @Mapping(target = "jobName", source = "jobName")
-    RwJob dtoToBean(AddRwJobRequest dto);
+    Job dtoToBean(AddRwJobRequest dto);
 
 }

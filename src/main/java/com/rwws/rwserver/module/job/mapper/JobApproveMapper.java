@@ -1,7 +1,7 @@
 package com.rwws.rwserver.module.job.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rwws.rwserver.module.job.domain.RwJobApprove;
+import com.rwws.rwserver.module.job.domain.JobApprove;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Component;
  * @Entity com.rwws.rwserver.module.job.domain.RwJobApprove
  */
 @Component
-public interface RwJobApproveMapper extends BaseMapper<RwJobApprove> {
+public interface JobApproveMapper extends BaseMapper<JobApprove> {
 
 }

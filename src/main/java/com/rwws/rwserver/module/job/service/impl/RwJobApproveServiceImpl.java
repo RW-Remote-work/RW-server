@@ -1,8 +1,8 @@
 package com.rwws.rwserver.module.job.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rwws.rwserver.module.job.domain.RwJobApprove;
-import com.rwws.rwserver.module.job.mapper.RwJobApproveMapper;
+import com.rwws.rwserver.module.job.domain.JobApprove;
+import com.rwws.rwserver.module.job.mapper.JobApproveMapper;
 import com.rwws.rwserver.module.job.service.RwJobApproveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class RwJobApproveServiceImpl extends ServiceImpl<RwJobApproveMapper, RwJobApprove>
+public class RwJobApproveServiceImpl extends ServiceImpl<JobApproveMapper, JobApprove>
         implements RwJobApproveService {
 
 }

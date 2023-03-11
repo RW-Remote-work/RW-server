@@ -5,8 +5,7 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="2" author="huang cb">
-        <dropTable tableName="rw_job"/>
-        <createTable tableName="rw_job" remarks="远程工作表">
+        <createTable tableName="job" remarks="远程工作表">
             <column name="id" type="bigint" remarks="主键ID">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -53,7 +52,7 @@
         <addNotNullConstraint columnDataType="varchar(50)"
                               columnName="job_name"
                               defaultNullValue="A String"
-                              tableName="rw_job"
+                              tableName="job"
                               validate="true"/>
     </changeSet>
 </databaseChangeLog>

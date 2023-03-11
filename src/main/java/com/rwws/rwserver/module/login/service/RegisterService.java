@@ -2,18 +2,17 @@ package com.rwws.rwserver.module.login.service;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rwws.rwserver.common.constant.RedisKeyConstant;
 import com.rwws.rwserver.common.constant.ZoneIdConstant;
 import com.rwws.rwserver.domain.security.Authority;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.exception.BadRequestProblem;
+import com.rwws.rwserver.manager.RedisCacheManager;
 import com.rwws.rwserver.module.login.domain.request.RegisterRequest;
 import com.rwws.rwserver.module.login.domain.response.RegisterResponse;
 import com.rwws.rwserver.module.system.user.mapper.UserAuthorityMapper;
 import com.rwws.rwserver.module.system.user.mapper.UserMapper;
-import com.rwws.rwserver.service.RedisService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,28 +23,30 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Set;
 
+import static com.rwws.rwserver.common.enums.RedisKeyPrefix.EMAIL;
+
 @Slf4j
 @Service
 public class RegisterService {
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    private UserAuthorityMapper userAuthorityMapper;
+    private final UserAuthorityMapper userAuthorityMapper;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    private JwtTokenService tokenService;
+    private final JwtTokenService tokenService;
 
-    private RedisService redisService;
+    private final RedisCacheManager redisCacheManager;
 
     public RegisterService(UserMapper userMapper,
                            UserAuthorityMapper userAuthorityMapper,
-                           RedisService redisService,
+                           RedisCacheManager redisCacheManager,
                            PasswordEncoder passwordEncoder,
                            JwtTokenService tokenService) {
         this.userMapper = userMapper;
         this.userAuthorityMapper = userAuthorityMapper;
-        this.redisService = redisService;
+        this.redisCacheManager = redisCacheManager;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }
@@ -60,8 +61,8 @@ public class RegisterService {
             throw new BadRequestProblem("The email exists");
 
         // 校验邮箱的验证码
-        String redisKey = this.redisService.generateRedisKey(RedisKeyConstant.Module.EMAIL_CODE, registerRequest.getEmail());
-        Object verifyCode = this.redisService.get(redisKey);
+        var key = EMAIL.format(registerRequest.getEmail());
+        var verifyCode = redisCacheManager.get(key, Object::toString).orElseThrow();
         if (!registerRequest.getCode().equals(verifyCode)) {
             throw new BadRequestProblem("Email verification code error");
         }

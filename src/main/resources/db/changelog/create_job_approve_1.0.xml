@@ -5,8 +5,7 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="4" author="huang cb">
-        <dropTable tableName="rw_job_approve"/>
-        <createTable tableName="rw_job_approve" remarks="远程工作审核表">
+        <createTable tableName="job_approve" remarks="远程工作审核表">
             <column name="id" type="bigint" remarks="主键ID">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -29,6 +28,6 @@
         <setColumnRemarks columnName="job_id"
                           columnDataType="bigint"
                           remarks="远程工作表ID"
-                          tableName="rw_job_approve"/>
+                          tableName="job_approve"/>
     </changeSet>
 </databaseChangeLog>

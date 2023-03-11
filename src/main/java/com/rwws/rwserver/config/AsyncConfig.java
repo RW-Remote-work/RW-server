@@ -2,7 +2,6 @@ package com.rwws.rwserver.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -14,11 +13,11 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 @EnableAsync
 public class AsyncConfig implements AsyncConfigurer {
-    @Value("${thread.core-pool-size}")
-    private Integer corePoolSize;
+    private final ThreadPoolProperties properties;
 
-    @Value("${thread.queue-capacity}")
-    private Integer queueCapacity;
+    public AsyncConfig(ThreadPoolProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     public Executor getAsyncExecutor() {
@@ -31,10 +30,9 @@ public class AsyncConfig implements AsyncConfigurer {
     }
 
     private ThreadPoolTaskExecutor mailThreadPoolExecutor() {
-        if (null == corePoolSize)
-            corePoolSize = Runtime.getRuntime().availableProcessors();
-        if (null == queueCapacity)
-            queueCapacity = 1000;
+        var corePoolSize = properties.getCorePoolSize() == null
+                ? Runtime.getRuntime().availableProcessors() : properties.getCorePoolSize();
+        var queueCapacity = properties.getQueueCapacity() == null ? 1000 : properties.getQueueCapacity();
         var taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.initialize();
         taskExecutor.setCorePoolSize(corePoolSize);

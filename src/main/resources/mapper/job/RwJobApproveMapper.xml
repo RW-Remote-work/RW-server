@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.rwws.rwserver.module.job.mapper.RwJobApproveMapper">
+<mapper namespace="com.rwws.rwserver.module.job.mapper.JobApproveMapper">
 
-    <resultMap id="BaseResultMap" type="com.rwws.rwserver.module.job.domain.RwJobApprove">
+    <resultMap id="BaseResultMap" type="com.rwws.rwserver.module.job.domain.JobApprove">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="jobId" column="job_id" jdbcType="BIGINT"/>
         <result property="approveUserId" column="approve_user_id" jdbcType="BIGINT"/>

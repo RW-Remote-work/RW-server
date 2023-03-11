@@ -42,13 +42,13 @@ public class JobController {
                        @Validated @RequestBody AddRwJobRequest request) {
 
         log.info(request.toString());
-        RwJob rwJob = RwJobTransfer.INSTANCE.dtoToBean(request);
+        Job job = JobTransfer.INSTANCE.dtoToBean(request);
 
-        rwJob.setJobPublisherId(_principal.getId());
-        rwJob.setJobPublishTime(new Date());
+        job.setJobPublisherId(_principal.getId());
+        job.setJobPublishTime(new Date());
 
-        log.info(rwJob.toString());
-        rwJobService.save(rwJob);
+        log.info(job.toString());
+        rwJobService.save(job);
     }
 
 }

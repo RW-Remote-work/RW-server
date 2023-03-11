@@ -2,9 +2,9 @@ package com.rwws.rwserver.module.job.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.rwws.rwserver.module.job.domain.Job;
 import com.rwws.rwserver.module.job.domain.QueryJobsParamDTO;
 import com.rwws.rwserver.module.job.domain.QueryJobsResultDTO;
-import com.rwws.rwserver.module.job.domain.RwJob;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @Entity com.rwws.rwserver.module.job.domain.RwJob
  */
 @Component
-public interface RwJobMapper extends BaseMapper<RwJob> {
+public interface JobMapper extends BaseMapper<Job> {
 
     Page<QueryJobsResultDTO> queryJobs(Page<QueryJobsResultDTO> pageParam, @Param("query") QueryJobsParamDTO params);
 }

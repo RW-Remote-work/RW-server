@@ -14,9 +14,9 @@ import java.util.Date;
  *
  * @TableName rw_job
  */
-@TableName(value = "rw_job")
+@TableName(value = "job")
 @Data
-public class RwJob extends AbstractAuditingEntity implements Serializable {
+public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 主键ID
      */
