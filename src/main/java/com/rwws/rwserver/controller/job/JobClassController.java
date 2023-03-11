@@ -1,6 +1,6 @@
-package com.rwws.rwserver.controller;
+package com.rwws.rwserver.controller.job;
 
-import com.rwws.rwserver.controller.request.AddJobClassRequest;
+import com.rwws.rwserver.controller.request.job.AddJobClassRequest;
 import com.rwws.rwserver.domain.JobClass;
 import com.rwws.rwserver.service.JobClassService;
 import org.springframework.validation.annotation.Validated;

@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping("/nomadLabels")
+@RequestMapping("/nomad-labels")
 public class NomadLabelController {
 
     private final NomadLabelService nomadLabelService;

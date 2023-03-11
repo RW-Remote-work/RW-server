@@ -1,12 +1,11 @@
 package com.rwws.rwserver.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * 远程工作表
@@ -125,7 +124,7 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 职位发布时间
      */
-    private Date jobPublishTime;
+    private Instant jobPublishTime;
 
     /**
      * 最新审批人ID
@@ -135,7 +134,7 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 最新审批时间
      */
-    private Date latestApproveTime;
+    private Instant latestApproveTime;
 
     /**
      * 最新审批理由
@@ -146,8 +145,4 @@ public class Job extends AbstractAuditingEntity implements Serializable {
      * 下线理由
      */
     private Integer offlineReasonId;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
-
 }

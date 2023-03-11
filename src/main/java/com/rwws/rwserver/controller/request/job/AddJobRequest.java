@@ -1,4 +1,4 @@
-package com.rwws.rwserver.controller.request;
+package com.rwws.rwserver.controller.request.job;
 
 import com.rwws.rwserver.common.constant.RegexConstant;
 import lombok.Data;
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * 添加远程工作
  */
 @Data
-public class AddRwJobRequest {
+public class AddJobRequest {
 
     /**
      * 岗位名称

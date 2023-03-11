@@ -1,10 +1,11 @@
-package com.rwws.rwserver.controller;
+package com.rwws.rwserver.controller.user;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/userregion")
 @RestController
-public class UserRegionController {
+@RequestMapping("/users")
+public class UserController {
+
 
 }
