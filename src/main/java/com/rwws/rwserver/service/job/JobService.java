@@ -31,20 +31,13 @@ public class JobService {
     public ListJobResponse listJob(IPage<Job> page, ListJobRequest request) {
         var result = jobMapper.selectPage(
                 page,
-                Wrappers.<Job>lambdaQuery().eq(Job::getJobClassId, request.getJobClassId())
-                        .eq(Job::getJobType, request.getJobType())
-                        .eq(Job::getRegionId, request.getRegionId())
-                        .between(Job::getJobPublishTime, request.getJobPublishTimeStart(), request.getJobPublishTimeEnd())
-                        .eq(Job::getJobPublisherId, request.getJobPublisherId())
-                        .eq(Job::getJobCode, request.getJobCode())
-                        .eq(Job::getJobStatus, request.getJobStatus())
-                        .like(Job::getJobName, request.getKeyword())
+                Wrappers.emptyWrapper()
         ).convert(jobTransfer::toListJobResponseJob);
         var response = new ListJobResponse();
         response.setSize(result.getSize());
         response.setTotal(result.getTotal());
         response.setCurrent(result.getCurrent());
-        response.setJobs(response.getJobs());
+        response.setJobs(result.getRecords());
         return response;
     }
 
