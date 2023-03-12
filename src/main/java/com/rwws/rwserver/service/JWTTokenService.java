@@ -1,12 +1,11 @@
 package com.rwws.rwserver.service;
 
+import com.rwws.rwserver.config.JWTProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -23,16 +22,15 @@ import java.util.Map;
  * HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret)
  */
 @Slf4j
-@Service
-public class JwtTokenService {
+@Component
+public class JWTTokenService {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
-    @Value("${jwt.secret}")
-    private String secret;
-    @Value("${jwt.expiration}")
-    private Long expiration;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
+    private final JWTProperties properties;
+
+    public JWTTokenService(JWTProperties properties) {
+        this.properties = properties;
+    }
 
     /**
      * 根据负责生成JWT的token
@@ -41,7 +39,7 @@ public class JwtTokenService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setExpiration(generateExpirationDate())
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(SignatureAlgorithm.HS512, properties.getSecret())
                 .compact();
     }
 
@@ -52,7 +50,7 @@ public class JwtTokenService {
         Claims claims = null;
         try {
             claims = Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(properties.getSecret())
                     .parseClaimsJws(token)
                     .getBody();
         } catch (Exception e) {
@@ -65,7 +63,7 @@ public class JwtTokenService {
      * 生成token的过期时间
      */
     private Date generateExpirationDate() {
-        return new Date(System.currentTimeMillis() + expiration * 1000);
+        return new Date(System.currentTimeMillis() + properties.getExpiration() * 1000);
     }
 
     /**
@@ -85,36 +83,33 @@ public class JwtTokenService {
     /**
      * 验证token是否还有效
      *
-     * @param token       客户端传入的token
-     * @param userDetails 从数据库中查询出来的用户信息
+     * @param token    客户端传入的token
+     * @param username 从数据库中查询出来的用户信息
      */
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String username = getUserNameFromToken(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    public boolean validateToken(String token, String username) {
+        return getUserNameFromToken(token).equals(username) && !isExpired(token);
     }
 
     /**
      * 判断token是否已经失效
      */
-    private boolean isTokenExpired(String token) {
-        Date expiredDate = getExpiredDateFromToken(token);
-        return expiredDate.before(new Date());
+    public boolean isExpired(String token) {
+        return getExpiredDateFromToken(token).before(new Date());
     }
 
     /**
      * 从token中获取过期时间
      */
     private Date getExpiredDateFromToken(String token) {
-        Claims claims = getClaimsFromToken(token);
-        return claims.getExpiration();
+        return getClaimsFromToken(token).getExpiration();
     }
 
     /**
      * 根据用户信息生成token
      */
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
+    public String generateToken(String username) {
+        var claims = new HashMap<String, Object>();
+        claims.put(CLAIM_KEY_USERNAME, username);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }

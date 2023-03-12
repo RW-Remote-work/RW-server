@@ -5,6 +5,7 @@ import com.rwws.rwserver.controller.response.ListHobbyResponse;
 import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.exception.BadRequestProblem;
 import com.rwws.rwserver.service.HobbyService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -21,11 +22,13 @@ public class HobbyController {
         this.hobbyService = hobbyService;
     }
 
+    @SecurityRequirement(name = "Bearer Authentication")
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
     @GetMapping
     public ListHobbyResponse listHobby(@AuthenticationPrincipal UserPrincipal _principal) {
         return hobbyService.listHobby(_principal.getId());
     }
+
 
     @PreAuthorize("hasAnyAuthority('SUPER_ADMIN','ADMIN','REGULAR_USER')")
     @PostMapping

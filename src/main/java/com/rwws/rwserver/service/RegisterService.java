@@ -35,7 +35,7 @@ public class RegisterService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JwtTokenService tokenService;
+    private final JWTTokenService tokenService;
 
     private final RedisCacheManager redisCacheManager;
 
@@ -43,7 +43,7 @@ public class RegisterService {
                            UserAuthorityMapper userAuthorityMapper,
                            RedisCacheManager redisCacheManager,
                            PasswordEncoder passwordEncoder,
-                           JwtTokenService tokenService) {
+                           JWTTokenService tokenService) {
         this.userMapper = userMapper;
         this.userAuthorityMapper = userAuthorityMapper;
         this.redisCacheManager = redisCacheManager;
@@ -85,7 +85,7 @@ public class RegisterService {
 
         // 生成用户Token
         UserDetails userDetails = new UserPrincipal(user, Set.of(Authority.REGULAR_USER));
-        String token = this.tokenService.generateToken(userDetails);
+        String token = this.tokenService.generateToken(userDetails.getUsername());
         RegisterResponse.UserVO userVO = new RegisterResponse.UserVO();
         userVO.setEmail(user.getEmail());
         userVO.setLogin(user.getLogin());
