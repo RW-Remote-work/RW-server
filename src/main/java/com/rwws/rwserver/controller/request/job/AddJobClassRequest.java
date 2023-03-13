@@ -14,9 +14,9 @@ public class AddJobClassRequest {
     @Data
     public static class JobClass {
         @NotBlank
-        private String jobChn;
+        private String chnName;
         @NotBlank
-        private String jobEng;
+        private String engName;
         private String remark;
     }
 }

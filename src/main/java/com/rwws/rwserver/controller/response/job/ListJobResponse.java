@@ -63,7 +63,7 @@ public class ListJobResponse {
 
         private String companyInfo;
 
-        private String jobLabel;
+        private String label;
 
         private JobStatus status;
 

@@ -1,6 +1,6 @@
 package com.rwws.rwserver.service.job;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.controller.request.job.AddJobClassRequest;
 import com.rwws.rwserver.domain.JobClass;
 import com.rwws.rwserver.exception.BadRequestProblem;
@@ -38,13 +38,13 @@ public class JobClassService {
 
     private void add(AddJobClassRequest.JobClass requestJobClass) {
         //检查表里是否存在相同的数据
-        var queryWrapper = new QueryWrapper<JobClass>().eq("job_chn", requestJobClass.getJobChn());
+        var queryWrapper = Wrappers.<JobClass>lambdaQuery().eq(JobClass::getChnName, requestJobClass.getChnName());
         if (jobClassMapper.exists(queryWrapper)) {
             throw new BadRequestProblem("该职业分类已存在，请勿重复添加");
         }
         var jobClass = new JobClass();
-        jobClass.setJobEng(requestJobClass.getJobEng());
-        jobClass.setJobChn(requestJobClass.getJobChn());
+        jobClass.setEngName(requestJobClass.getEngName());
+        jobClass.setChnName(requestJobClass.getChnName());
         jobClass.setRemark(requestJobClass.getRemark());
         this.jobClassMapper.insert(jobClass);
     }
