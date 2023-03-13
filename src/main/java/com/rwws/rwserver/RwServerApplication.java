@@ -1,6 +1,7 @@
 package com.rwws.rwserver;
 
 import com.rwws.rwserver.config.ApplicationProperties;
+import com.rwws.rwserver.config.JWTProperties;
 import com.rwws.rwserver.config.ThreadPoolProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +10,8 @@ import org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfigura
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@EnableConfigurationProperties(value = {ApplicationProperties.class, FreeMarkerProperties.class, ThreadPoolProperties.class})
+@EnableConfigurationProperties(value = {ApplicationProperties.class, FreeMarkerProperties.class,
+        ThreadPoolProperties.class, JWTProperties.class})
 @MapperScan("com.rwws.rwserver.**.mapper")
 @SpringBootApplication(exclude = FreeMarkerAutoConfiguration.class)
 public class RwServerApplication {
