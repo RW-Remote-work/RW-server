@@ -95,6 +95,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             var principal = (UserPrincipal) authentication.getPrincipal();
             var updateUser = new User();
             updateUser.setId(principal.getId());
+            updateUser.setLastLoginIp(request.getRemoteHost());
             updateUser.setLastLoginTime(Instant.now());
             userMapper.updateById(updateUser);
         };
