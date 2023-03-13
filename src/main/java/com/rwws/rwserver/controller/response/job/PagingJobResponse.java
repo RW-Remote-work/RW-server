@@ -1,5 +1,6 @@
 package com.rwws.rwserver.controller.response.job;
 
+import com.rwws.rwserver.controller.response.PagingResponse;
 import com.rwws.rwserver.domain.emums.JobSalaryType;
 import com.rwws.rwserver.domain.emums.JobStatus;
 import com.rwws.rwserver.domain.emums.JobType;
@@ -9,11 +10,7 @@ import java.time.Instant;
 import java.util.List;
 
 @Data
-public class ListJobResponse {
-    private long total;
-    private long size;
-    private long current;
-
+public class PagingJobResponse extends PagingResponse {
     private List<Job> jobs = List.of();
 
     @Data

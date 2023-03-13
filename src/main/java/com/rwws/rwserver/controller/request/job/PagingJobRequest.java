@@ -5,7 +5,7 @@ import lombok.Data;
 import java.time.Instant;
 
 @Data
-public class ListJobRequest {
+public class PagingJobRequest {
 
     private Long jobClassId;
 

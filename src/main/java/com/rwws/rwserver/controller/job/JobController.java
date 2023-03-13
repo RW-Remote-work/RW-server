@@ -2,8 +2,8 @@ package com.rwws.rwserver.controller.job;
 
 import com.rwws.rwserver.common.util.MybatisPlusUtil;
 import com.rwws.rwserver.controller.request.job.AddJobRequest;
-import com.rwws.rwserver.controller.request.job.ListJobRequest;
-import com.rwws.rwserver.controller.response.job.ListJobResponse;
+import com.rwws.rwserver.controller.request.job.PagingJobRequest;
+import com.rwws.rwserver.controller.response.job.PagingJobResponse;
 import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.service.job.JobService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,9 @@ public class JobController {
 
 
     @GetMapping(value = "")
-    public ListJobResponse listJob(@ParameterObject @PageableDefault Pageable pageable,
-                                   @RequestBody(required = false) ListJobRequest request) {
-        return jobService.listJob(MybatisPlusUtil.toPage(pageable), request);
+    public PagingJobResponse pagingJob(@ParameterObject @PageableDefault Pageable pageable,
+                                       @RequestBody(required = false) PagingJobRequest request) {
+        return jobService.pagingJob(MybatisPlusUtil.toPage(pageable), request);
     }
 
     @PostMapping("")

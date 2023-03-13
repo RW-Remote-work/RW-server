@@ -3,8 +3,8 @@ package com.rwws.rwserver.service.job;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.controller.request.job.AddJobRequest;
-import com.rwws.rwserver.controller.request.job.ListJobRequest;
-import com.rwws.rwserver.controller.response.job.ListJobResponse;
+import com.rwws.rwserver.controller.request.job.PagingJobRequest;
+import com.rwws.rwserver.controller.response.job.PagingJobResponse;
 import com.rwws.rwserver.domain.Job;
 import com.rwws.rwserver.mapper.job.JobMapper;
 import com.rwws.rwserver.transfer.JobTransfer;
@@ -28,12 +28,12 @@ public class JobService {
         this.jobTransfer = jobTransfer;
     }
 
-    public ListJobResponse listJob(IPage<Job> page, ListJobRequest request) {
+    public PagingJobResponse pagingJob(IPage<Job> page, PagingJobRequest request) {
         var result = jobMapper.selectPage(
                 page,
                 Wrappers.emptyWrapper()
-        ).convert(jobTransfer::toListJobResponseJob);
-        var response = new ListJobResponse();
+        ).convert(jobTransfer::toPagingJobResponseJob);
+        var response = new PagingJobResponse();
         response.setSize(result.getSize());
         response.setTotal(result.getTotal());
         response.setCurrent(result.getCurrent());

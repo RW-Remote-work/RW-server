@@ -1,6 +1,6 @@
 package com.rwws.rwserver.transfer;
 
-import com.rwws.rwserver.controller.response.job.ListJobResponse;
+import com.rwws.rwserver.controller.response.job.PagingJobResponse;
 import com.rwws.rwserver.domain.Job;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,6 +38,6 @@ public interface JobTransfer {
     @Mapping(source = "latestApproveTime", target = "latestApproveTime")
     @Mapping(source = "latestApproveReason", target = "latestApproveReason")
     @Mapping(source = "offlineReasonId", target = "offlineReasonId")
-    ListJobResponse.Job toListJobResponseJob(Job job);
+    PagingJobResponse.Job toPagingJobResponseJob(Job job);
 
 }

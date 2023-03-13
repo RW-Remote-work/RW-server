@@ -12,4 +12,5 @@
     <include file="changelog/1.0/create_job_class.xml" relativeToChangelogFile="true"/>
     <include file="changelog/1.0/create_money_type.xml" relativeToChangelogFile="true"/>
     <include file="changelog/1.0/create_user_hobby.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_login_record.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

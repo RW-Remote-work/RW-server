@@ -2,10 +2,10 @@ package com.rwws.rwserver.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rwws.rwserver.domain.security.User;
+import com.rwws.rwserver.domain.LoginRecord;
 import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.manager.JWTManager;
-import com.rwws.rwserver.mapper.UserMapper;
+import com.rwws.rwserver.service.LoginRecordService;
 import lombok.Data;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
@@ -30,16 +30,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JWTManager jwtManager;
     private final ObjectMapper objectMapper;
-    private final UserMapper userMapper;
+    private final LoginRecordService loginRecordService;
 
 
     public JWTLoginFilter(JWTManager jwtManager,
                           ObjectMapper objectMapper,
-                          UserMapper userMapper) {
+                          LoginRecordService loginRecordService) {
         super(LOGIN_URI);
         this.jwtManager = jwtManager;
         this.objectMapper = objectMapper;
-        this.userMapper = userMapper;
+        this.loginRecordService = loginRecordService;
         setAuthenticationSuccessHandler(successHandler());
         setAuthenticationFailureHandler((request, response, exception) -> response.setStatus(UNAUTHORIZED.getStatusCode()));
     }
@@ -78,7 +78,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
                                int sc,
                                String title,
                                @Nullable String detail) throws IOException {
-        var loginResponse = new LoginResponse();
+        var loginResponse = new LoginFailResponse();
         loginResponse.setTitle(title);
         loginResponse.setDetail(detail);
         response.setStatus(sc);
@@ -92,19 +92,16 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     private AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             response.setStatus(OK.getStatusCode());
-            var principal = (UserPrincipal) authentication.getPrincipal();
-            var updateUser = new User();
-            updateUser.setId(principal.getId());
-            updateUser.setLastLoginIp(request.getRemoteHost());
-            updateUser.setLastLoginTime(Instant.now());
-            userMapper.updateById(updateUser);
+            var principal = (UserPrincipal) authentication;
+            var record = new LoginRecord(principal.getId(), request.getRemoteHost(), Instant.now());
+            loginRecordService.add(record);
         };
     }
 
-
     @Data
-    private static class LoginResponse {
+    private static class LoginFailResponse {
         private String title;
         private String detail;
     }
+
 }
