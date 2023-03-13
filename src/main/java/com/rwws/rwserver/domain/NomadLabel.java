@@ -3,8 +3,6 @@ package com.rwws.rwserver.domain;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
  * 游民标签实体
  *
@@ -14,7 +12,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class NomadLabel implements Serializable {
+public class NomadLabel {
 
     /**
      * 主键

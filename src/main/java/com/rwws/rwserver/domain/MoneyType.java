@@ -2,8 +2,7 @@ package com.rwws.rwserver.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-
-import java.io.Serializable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 薪资币种实体
@@ -14,24 +13,25 @@ import java.io.Serializable;
  */
 
 @Data
-public class MoneyType implements Serializable {
+public class MoneyType {
 
     @TableId
     /** 主键 */
     private Long id;
 
     /**
-     * 职位中文名称
+     * 中文名称
      */
-    private String typeChn;
+    private String chnName;
 
     /**
      * 币种编码 例如CNY USD EUR BTC 限制为大写 非空
      */
-    private String typeCode;
+    private String code;
 
     /**
      * 备注
      */
+    @Nullable
     private String remark;
 }

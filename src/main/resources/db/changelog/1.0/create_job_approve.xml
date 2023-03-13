@@ -12,9 +12,15 @@
             <column name="job_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="approve_user_id" type="bigint" remarks="审批人ID"/>
-            <column name="approve_time" type="datetime" remarks="审批时间"/>
-            <column name="approve_status" type="int" remarks="审批结果（1:通过，2:拒绝）"/>
+            <column name="approve_user_id" type="bigint" remarks="审批人ID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approve_time" type="datetime" remarks="审批时间">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approve_status" type="int" remarks="审批结果（1:通过，2:拒绝）">
+                <constraints nullable="false"/>
+            </column>
             <column name="approve_reason" type="varchar(255)" remarks="审批理由"/>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
@@ -25,9 +31,5 @@
             <column name="last_modified_by" type="varchar(50)" remarks="修改人"/>
             <column name="last_modified_date" type="datetime" remarks="修改时间"/>
         </createTable>
-        <setColumnRemarks columnName="job_id"
-                          columnDataType="bigint"
-                          remarks="远程工作表ID"
-                          tableName="job_approve"/>
     </changeSet>
 </databaseChangeLog>

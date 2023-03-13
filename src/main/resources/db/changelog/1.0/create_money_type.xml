@@ -10,11 +10,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <!-- remarks="币种中文名称" -->
-            <column name="type_chn" type="varchar(100)">
+            <column name="chn_name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <!-- remarks="币种编码 例如CNY USD EUR BTC 限制为大写 非空 " -->
-            <column name="type_code" type="varchar(100)">
+            <column name="code" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="remark" type="varchar(500)" remarks="备注">

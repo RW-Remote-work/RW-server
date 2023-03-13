@@ -1,20 +1,21 @@
 package com.rwws.rwserver.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.rwws.rwserver.domain.emums.JobSalaryType;
+import com.rwws.rwserver.domain.emums.JobStatus;
+import com.rwws.rwserver.domain.emums.JobType;
 import lombok.Data;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.Serializable;
 import java.time.Instant;
 
 /**
  * 远程工作表
  *
- * @TableName rw_job
+ * @TableName job
  */
-@TableName(value = "job")
 @Data
-public class Job extends AbstractAuditingEntity implements Serializable {
+public class Job extends AbstractAuditingEntity {
     /**
      * 主键ID
      */
@@ -24,12 +25,12 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 岗位编号
      */
-    private String jobCode;
+    private String code;
 
     /**
      * 岗位名称
      */
-    private String jobName;
+    private String name;
 
     /**
      * 职位分类ID
@@ -39,7 +40,7 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 工作类型（1:全职远程/2:兼职远程）
      */
-    private Integer jobType;
+    private JobType type;
 
     /**
      * 国家/地区ID
@@ -54,22 +55,25 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 投递微信号
      */
+    @Nullable
     private String deliverWechat;
 
     /**
      * 投递telegram
      */
+    @Nullable
     private String deliverTelegram;
 
     /**
      * 投递网址
      */
+    @Nullable
     private String deliverWebsite;
 
     /**
      * 薪资表示类型（1:月薪，2:年薪）
      */
-    private Integer salaryType;
+    private JobSalaryType salaryType;
 
     /**
      * 薪资币种
@@ -89,17 +93,17 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 岗位描述
      */
-    private String jobDescription;
+    private String description;
 
     /**
      * 岗位职责
      */
-    private String jobDuty;
+    private String duty;
 
     /**
      * 岗位要求
      */
-    private String jobRequirement;
+    private String requirement;
 
     /**
      * 公司/团队介绍
@@ -109,40 +113,44 @@ public class Job extends AbstractAuditingEntity implements Serializable {
     /**
      * 岗位标签
      */
-    private String jobLabel;
+    private String label;
 
     /**
      * 状态（1:待审核，2:在线中、3:已下线/失效、4:不通过）
      */
-    private Integer jobStatus;
+    private JobStatus status;
 
     /**
      * 职位发布人ID
      */
-    private Long jobPublisherId;
+    private Long publisherId;
 
     /**
      * 职位发布时间
      */
-    private Instant jobPublishTime;
+    private Instant publishTime;
 
     /**
      * 最新审批人ID
      */
+    @Nullable
     private Long latestApproveUserId;
 
     /**
      * 最新审批时间
      */
+    @Nullable
     private Instant latestApproveTime;
 
     /**
      * 最新审批理由
      */
+    @Nullable
     private String latestApproveReason;
 
     /**
      * 下线理由
      */
-    private Integer offlineReasonId;
+    @Nullable
+    private Long offlineReasonId;
 }

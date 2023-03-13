@@ -1,8 +1,11 @@
 package com.rwws.rwserver.controller.response.job;
 
+import com.rwws.rwserver.domain.emums.JobSalaryType;
+import com.rwws.rwserver.domain.emums.JobStatus;
+import com.rwws.rwserver.domain.emums.JobType;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -17,9 +20,9 @@ public class ListJobResponse {
     public static class Job {
         private Long id;
 
-        private String jobCode;
+        private String code;
 
-        private String jobName;
+        private String name;
 
         private Long jobClassId;
 
@@ -27,7 +30,7 @@ public class ListJobResponse {
 
         private String jobClassEng;
 
-        private Integer jobType;
+        private JobType type;
 
         private Long regionId;
 
@@ -40,7 +43,7 @@ public class ListJobResponse {
         private String deliverWechat;
         private String deliverTelegram;
 
-        private Integer salaryType;
+        private JobSalaryType salaryType;
 
         private Long moneyTypeId;
 
@@ -52,29 +55,29 @@ public class ListJobResponse {
 
         private Long salaryMax;
 
-        private String jobDescription;
+        private String description;
 
-        private String jobDuty;
+        private String duty;
 
-        private String jobRequirement;
+        private String requirement;
 
         private String companyInfo;
 
         private String jobLabel;
 
-        private Integer jobStatus;
+        private JobStatus status;
 
-        private Long jobPublisherId;
+        private Long publisherId;
 
-        private String jobPublisherName;
+        private String publisherName;
 
-        private Date jobPublishTime;
+        private Instant publishTime;
 
         private Long latestApproveUserId;
 
         private String latestApproveUserName;
 
-        private Date latestApproveTime;
+        private Instant latestApproveTime;
 
         private String latestApproveReason;
 

@@ -2,8 +2,7 @@ package com.rwws.rwserver.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
-
-import java.io.Serializable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 职位分类实体
@@ -15,7 +14,7 @@ import java.io.Serializable;
 
 
 @Data
-public class JobClass implements Serializable {
+public class JobClass {
 
     /**
      * 主键
@@ -26,15 +25,16 @@ public class JobClass implements Serializable {
     /**
      * 职位中文名称
      */
-    private String jobChn;
+    private String chnName;
 
     /**
      * 职位英文名称
      */
-    private String jobEng;
+    private String engName;
 
     /**
      * 备注
      */
+    @Nullable
     private String remark;
 }

@@ -1,21 +1,19 @@
 package com.rwws.rwserver.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.rwws.rwserver.domain.emums.JobApproveStatus;
 import lombok.Data;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.Serializable;
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * 远程工作审批记录表
  *
- * @TableName rw_job_approve
+ * @TableName job_approve
  */
-@TableName(value = "job_approve")
 @Data
-public class JobApprove extends AbstractAuditingEntity implements Serializable {
+public class JobApprove extends AbstractAuditingEntity {
     /**
      * 主键ID
      */
@@ -35,19 +33,17 @@ public class JobApprove extends AbstractAuditingEntity implements Serializable {
     /**
      * 审批时间
      */
-    private Date approveTime;
+    private Instant approveTime;
 
     /**
      * 审批结果（1:通过，2:拒绝）
      */
-    private Integer approveStatus;
+    private JobApproveStatus approveStatus;
 
     /**
      * 审批理由
      */
+    @Nullable
     private String approveReason;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 
 }

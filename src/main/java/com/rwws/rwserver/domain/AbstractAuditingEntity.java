@@ -2,6 +2,7 @@ package com.rwws.rwserver.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+import org.jetbrains.annotations.Nullable;
 
 import java.time.Instant;
 
@@ -16,9 +17,11 @@ public abstract class AbstractAuditingEntity {
     @TableField(fill = INSERT)
     private Instant createdDate;
 
+    @Nullable
     @TableField(fill = UPDATE)
     private String lastModifiedBy;
 
+    @Nullable
     @TableField(fill = UPDATE)
     private Instant lastModifiedDate;
 }

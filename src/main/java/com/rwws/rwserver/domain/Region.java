@@ -1,6 +1,7 @@
 package com.rwws.rwserver.domain;
 
 import lombok.Data;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 国家地区实体
@@ -30,5 +31,6 @@ public class Region {
     /**
      * 备注
      */
+    @Nullable
     private String remark;
 }

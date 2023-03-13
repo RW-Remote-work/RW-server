@@ -2,13 +2,14 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
-    <include file="changelog/create_hobby_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_user_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_user_authority_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_job_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_job_approve_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_region_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_user_label_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_job_class_1.0.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/create_money_type_1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_hobby.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_user.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_user_authority.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_job.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_job_approve.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_region.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_user_label.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_job_class.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_money_type.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_user_hobby.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

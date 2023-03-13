@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rwws.rwserver.controller.request.job.AddJobClassRequest;
 import com.rwws.rwserver.domain.JobClass;
 import com.rwws.rwserver.exception.BadRequestProblem;
-import com.rwws.rwserver.mapper.JobClassMapper;
+import com.rwws.rwserver.mapper.job.JobClassMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

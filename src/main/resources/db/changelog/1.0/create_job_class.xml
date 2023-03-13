@@ -10,13 +10,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <!-- remarks="职位中文名称" -->
-            <column name="job_chn" type="varchar(100)">
+            <column name="chn_name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <!-- remarks="职位英文名称" -->
-            <column name="job_eng" type="varchar(100)">
-                <!-- <constraints nullable="false"/>-->
-            </column>
+            <column name="eng_name" type="varchar(100)"/>
             <column name="remark" type="varchar(500)" remarks="备注">
             </column>
         </createTable>
