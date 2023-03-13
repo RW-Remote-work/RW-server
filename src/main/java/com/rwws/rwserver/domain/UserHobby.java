@@ -1,11 +1,12 @@
 package com.rwws.rwserver.domain;
 
-import lombok.AllArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class UserHobby {
+    @TableId
+    private Long id;
     private Long hobbyId;
     private Long userId;
 }

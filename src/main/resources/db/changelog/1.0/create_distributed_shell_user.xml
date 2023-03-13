@@ -5,17 +5,14 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="1" author="Jinhan He">
-        <createTable tableName="login_record">
-            <column name="id" type="bigint">
+        <createTable tableName="distributed_shell_user">
+            <column name="id" type="bigint" remarks="主键">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="bigint" remarks="用户id">
                 <constraints nullable="false"/>
             </column>
-            <column name="ip" type="varchar(100)" remarks="登录ip">
-                <constraints nullable="false"/>
-            </column>
-            <column name="time" type="datetime" remarks="登陆时间">
+            <column name="shell_distribution_record_id" type="bigint" remarks="发放记录id">
                 <constraints nullable="false"/>
             </column>
         </createTable>

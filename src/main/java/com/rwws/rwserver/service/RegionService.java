@@ -1,6 +1,6 @@
 package com.rwws.rwserver.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.controller.request.AddRegionRequest;
 import com.rwws.rwserver.controller.response.ListRegionResponse;
 import com.rwws.rwserver.domain.Region;
@@ -67,7 +67,8 @@ public class RegionService {
 
     private void add(AddRegionRequest.Region requestRegion) {
         //检查表里是否存在相同的数据
-        var queryWrapper = new QueryWrapper<Region>().eq("chn_name", requestRegion.getChnName());
+        var queryWrapper = Wrappers.<Region>lambdaQuery()
+                .eq(Region::getChnName, requestRegion.getChnName());
         if (regionMapper.exists(queryWrapper)) {
             throw new BadRequestProblem("该地区已存在，请勿重复添加");
         }

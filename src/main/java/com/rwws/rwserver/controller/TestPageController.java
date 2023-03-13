@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Hidden
 @RestController
 public class TestPageController {
-    @GetMapping("/login.html")
+    @GetMapping({"/login.html", "login"})
     public ClassPathResource login() {
         return new ClassPathResource("/static/login.html");
     }

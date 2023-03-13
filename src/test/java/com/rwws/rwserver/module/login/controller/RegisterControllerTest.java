@@ -3,7 +3,6 @@ package com.rwws.rwserver.module.login.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rwws.rwserver.BaseTest;
-import com.rwws.rwserver.controller.response.RegisterResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

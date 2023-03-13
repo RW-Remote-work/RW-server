@@ -1,9 +1,8 @@
 package com.rwws.rwserver.controller;
 
 import com.rwws.rwserver.controller.request.RegisterRequest;
-import com.rwws.rwserver.controller.response.RegisterResponse;
 import com.rwws.rwserver.service.RegisterService;
-import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,13 +17,13 @@ public class RegisterController {
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public RegisterResponse register(@Validated @RequestBody RegisterRequest request) {
-        return this.registerService.register(request);
+    @Transactional
+    public void register(@Validated @RequestBody RegisterRequest request) {
+        registerService.register(request);
     }
 
     @PutMapping
-    public RegisterResponse update(@Validated @RequestBody RegisterRequest request) {
-        return null;
+    public void update(@Validated @RequestBody RegisterRequest request) {
+
     }
 }

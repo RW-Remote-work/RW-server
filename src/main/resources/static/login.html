@@ -41,12 +41,14 @@
 
         let username = document.getElementById('username').value
         let password = document.getElementById('password').value
+        let rememberMe = document.getElementById('remember-me').value
 
         fetch('api/authentication', {
             method: 'POST',
             body: new URLSearchParams({
                 username: username,
-                password: password
+                password: password,
+                'remember-me': rememberMe,
             }),
         }).then(response => {
             if (response.ok) {

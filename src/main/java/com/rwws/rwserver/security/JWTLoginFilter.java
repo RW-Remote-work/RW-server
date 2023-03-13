@@ -93,7 +93,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         return (request, response, authentication) -> {
             response.setStatus(OK.getStatusCode());
             var principal = (UserPrincipal) authentication.getPrincipal();
-            var record = new LoginRecord(principal.getId(), request.getRemoteHost(), Instant.now());
+            var record = new LoginRecord();
+            record.setUserId(principal.getId());
+            record.setIp(request.getRemoteHost());
+            record.setTime(Instant.now());
             loginRecordService.add(record);
         };
     }

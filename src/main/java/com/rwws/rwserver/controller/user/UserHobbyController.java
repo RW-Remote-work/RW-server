@@ -1,4 +1,4 @@
-package com.rwws.rwserver.controller;
+package com.rwws.rwserver.controller.user;
 
 import com.rwws.rwserver.controller.request.AddHobbyRequest;
 import com.rwws.rwserver.controller.response.ListUserHobbyResponse;

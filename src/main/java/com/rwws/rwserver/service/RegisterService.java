@@ -1,28 +1,18 @@
 package com.rwws.rwserver.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rwws.rwserver.common.constant.ZoneIdConstant;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.controller.request.RegisterRequest;
-import com.rwws.rwserver.controller.response.RegisterResponse;
 import com.rwws.rwserver.domain.security.Authority;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
-import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.exception.BadRequestProblem;
-import com.rwws.rwserver.manager.JWTManager;
 import com.rwws.rwserver.manager.RedisCacheManager;
 import com.rwws.rwserver.mapper.UserAuthorityMapper;
 import com.rwws.rwserver.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Set;
 
 import static com.rwws.rwserver.common.enums.RedisKeyPrefix.EMAIL;
 
@@ -31,70 +21,54 @@ import static com.rwws.rwserver.common.enums.RedisKeyPrefix.EMAIL;
 public class RegisterService {
 
     private final UserMapper userMapper;
-
     private final UserAuthorityMapper userAuthorityMapper;
-
     private final PasswordEncoder passwordEncoder;
-
-    private final JWTManager jwtManager;
-
     private final RedisCacheManager redisCacheManager;
 
     public RegisterService(UserMapper userMapper,
                            UserAuthorityMapper userAuthorityMapper,
                            RedisCacheManager redisCacheManager,
-                           PasswordEncoder passwordEncoder,
-                           JWTManager jwtManager) {
+                           PasswordEncoder passwordEncoder) {
         this.userMapper = userMapper;
         this.userAuthorityMapper = userAuthorityMapper;
         this.redisCacheManager = redisCacheManager;
         this.passwordEncoder = passwordEncoder;
-        this.jwtManager = jwtManager;
     }
 
-    @Transactional
-    public RegisterResponse register(RegisterRequest registerRequest) {
+
+    public void register(RegisterRequest request) {
         // 校验用户已经存在
-        boolean exists = this.userMapper.exists(
-                new QueryWrapper<User>().eq("email", registerRequest.getEmail())
+        var exists = this.userMapper.exists(
+                Wrappers.<User>lambdaQuery()
+                        .eq(User::getEmail, request.getEmail())
         );
         if (exists)
             throw new BadRequestProblem("The email exists");
 
         // 校验邮箱的验证码
-        var key = EMAIL.format(registerRequest.getEmail());
-        var verifyCode = redisCacheManager.get(key, Object::toString).orElseThrow();
-        if (!registerRequest.getCode().equals(verifyCode)) {
+        var key = EMAIL.format(request.getEmail());
+        var verifyCode = redisCacheManager.get(key, Object::toString)
+                .orElseThrow(() -> new BadRequestProblem("Email verification code don't exist"));
+        if (!request.getCode().equals(verifyCode)) {
             throw new BadRequestProblem("Email verification code error");
         }
 
         // 新增用户
-        String encryptPwd = this.passwordEncoder.encode(registerRequest.getPassword());
-        User user = new User();
-        user.setLogin(registerRequest.getEmail());
-        user.setEmail(registerRequest.getEmail());
-        user.setDisplayName(registerRequest.getEmail());
+        var encryptPwd = this.passwordEncoder.encode(request.getPassword());
+        var user = new User();
+        user.setLogin(request.getEmail());
+        user.setEmail(request.getEmail());
+        user.setDisplayName(request.getEmail());
         user.setPassword(encryptPwd);
         user.setActivated(Boolean.TRUE);
         this.userMapper.insert(user);
 
         // 新增用户权限
-        UserAuthority userAuthority = new UserAuthority();
+        var userAuthority = new UserAuthority();
         userAuthority.setUserId(user.getId());
         userAuthority.setAuthority(Authority.REGULAR_USER);
         this.userAuthorityMapper.insert(userAuthority);
 
-        // 生成用户Token
-        UserDetails userDetails = new UserPrincipal(user, Set.of(Authority.REGULAR_USER));
-        String token = this.jwtManager.generateByUser(userDetails.getUsername());
-        RegisterResponse.UserVO userVO = new RegisterResponse.UserVO();
-        userVO.setEmail(user.getEmail());
-        userVO.setLogin(user.getLogin());
-        userVO.setCreateDate(LocalDateTime.ofInstant(user.getCreatedDate(), ZoneId.of(ZoneIdConstant.CHINA_STANDARD)));
-        RegisterResponse registerResponse = new RegisterResponse();
-        registerResponse.setUserVO(userVO);
-        registerResponse.setToken(token);
-
-        return registerResponse;
+        // todo 每个新用户都应该创建一个贝壳账户
     }
 }

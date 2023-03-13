@@ -1,6 +1,6 @@
 package com.rwws.rwserver.security;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.domain.security.User;
 import com.rwws.rwserver.domain.security.UserAuthority;
 import com.rwws.rwserver.domain.security.UserPrincipal;
@@ -30,19 +30,20 @@ public class DomainUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userMapper.selectOne(
-                new QueryWrapper<User>()
-                        .eq("activated", true)
-                        .and(
-                                it -> it.eq("login", username)
+                Wrappers.<User>lambdaQuery()
+                        .eq(User::isActivated, Boolean.TRUE)
+                        .or(
+                                it -> it.eq(User::getEmail, username)
                                         .or()
-                                        .eq("email", username)
+                                        .eq(User::getLogin, username)
                         )
+
         );
         if (user == null) throw new UsernameNotFoundException("User " + username + " does not exist.");
 
         var authorities = userAuthorityMapper.selectList(
-                new QueryWrapper<UserAuthority>()
-                        .eq("user_id", user.getId())
+                Wrappers.<UserAuthority>lambdaQuery()
+                        .eq(UserAuthority::getUserId, user.getId())
         ).stream().map(UserAuthority::getAuthority).collect(Collectors.toSet());
         return new UserPrincipal(user, authorities);
     }

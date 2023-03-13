@@ -1,6 +1,8 @@
 package com.rwws.rwserver.security;
 
+import com.rwws.rwserver.domain.security.Authority;
 import com.rwws.rwserver.manager.JWTManager;
+import com.rwws.rwserver.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -31,12 +33,15 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private static final Set<String> SKIP_URI = Set.of(JWTLoginFilter.LOGIN_URI);
     private final UserDetailsService userDetailsService;
     private final JWTManager jwtManager;
+    private final UserService userService;
     private final AuthenticationDetailsSource<HttpServletRequest, ?> authenticationDetailsSource = new WebAuthenticationDetailsSource();
 
     public JWTAuthenticationFilter(UserDetailsService userDetailsService,
-                                   JWTManager jwtManager) {
+                                   JWTManager jwtManager,
+                                   UserService userService) {
         this.userDetailsService = userDetailsService;
         this.jwtManager = jwtManager;
+        this.userService = userService;
     }
 
 
@@ -56,9 +61,19 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
             var username = claims.get(SUBJECT).asString();
-            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+            boolean activated = userService.isActivated(username);
+            if (!activated) {
+                //用户激活状态可能被修改为未激活, 注销当前认证状态
+                SecurityContextHolder.getContext().setAuthentication(null);
+                chain.doFilter(request, response);
+                return;
+            }
+            var currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
+            if (currentAuthentication == null || currentAuthentication.getAuthorities()
+                    .stream().anyMatch(it -> it.getAuthority().equals(Authority.ROLE_ANONYMOUS.getAuthority()))) {
                 var userDetails = userDetailsService.loadUserByUsername(username);
-                var authentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, null, userDetails.getAuthorities());
+                var authentication = UsernamePasswordAuthenticationToken.authenticated(userDetails, null,
+                        userDetails.getAuthorities());
                 authentication.setDetails(authenticationDetailsSource.buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

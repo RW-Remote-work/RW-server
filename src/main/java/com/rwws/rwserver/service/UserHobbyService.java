@@ -32,7 +32,9 @@ public class UserHobbyService {
             hobbyMapper.insert(hobby);
         }
 
-        var userHobby = new UserHobby(hobby.getId(), userId);
+        var userHobby = new UserHobby();
+        userHobby.setUserId(userId);
+        userHobby.setHobbyId(hobby.getId());
         userHobbyMapper.insert(userHobby);
     }
 

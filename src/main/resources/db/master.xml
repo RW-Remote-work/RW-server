@@ -13,4 +13,9 @@
     <include file="changelog/1.0/create_money_type.xml" relativeToChangelogFile="true"/>
     <include file="changelog/1.0/create_user_hobby.xml" relativeToChangelogFile="true"/>
     <include file="changelog/1.0/create_login_record.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_distributed_shell_user.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_shell_account.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_shell_account_record.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/1.0/create_shell_distribution_record.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

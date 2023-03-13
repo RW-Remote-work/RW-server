@@ -5,17 +5,20 @@
                    objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
 
     <changeSet id="1" author="Jinhan He">
-        <createTable tableName="login_record">
-            <column name="id" type="bigint">
+        <createTable tableName="shell_account">
+            <column name="id" type="bigint" remarks="主键">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="bigint" remarks="用户id">
                 <constraints nullable="false"/>
             </column>
-            <column name="ip" type="varchar(100)" remarks="登录ip">
+            <column name="total" type="int" defaultValue="0" remarks="贝克总数">
                 <constraints nullable="false"/>
             </column>
-            <column name="time" type="datetime" remarks="登陆时间">
+            <column name="earned_amount" type="int" defaultValue="0" remarks="赚取的数量">
+                <constraints nullable="false"/>
+            </column>
+            <column name="purchased_amount" type="int" defaultValue="0" remarks="购买的数量">
                 <constraints nullable="false"/>
             </column>
         </createTable>

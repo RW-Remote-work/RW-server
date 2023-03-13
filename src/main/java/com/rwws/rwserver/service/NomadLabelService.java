@@ -1,6 +1,6 @@
 package com.rwws.rwserver.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rwws.rwserver.controller.request.AddNomadLabelRequest;
 import com.rwws.rwserver.domain.NomadLabel;
 import com.rwws.rwserver.exception.BadRequestProblem;
@@ -51,7 +51,8 @@ public class NomadLabelService {
     }
 
     private void add(AddNomadLabelRequest.NomadLabel label) {
-        var queryWrapper = new QueryWrapper<NomadLabel>().eq("label_content", label.getLabelContent());
+        var queryWrapper = Wrappers.<NomadLabel>lambdaQuery()
+                .eq(NomadLabel::getLabelContent, label.getLabelContent());
         if (nomadLabelMapper.exists(queryWrapper)) {
             throw new BadRequestProblem("该游民标签已存在，请勿重复添加");
         }
