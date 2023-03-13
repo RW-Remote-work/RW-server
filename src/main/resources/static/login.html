@@ -38,21 +38,15 @@
 </body>
 <script>
     function doLogin() {
-        let csrf = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('XSRF-TOKEN='))
-            .split('=')[1]
+
         let username = document.getElementById('username').value
         let password = document.getElementById('password').value
-        let rememberMe = document.getElementById('remember-me').value
 
         fetch('api/authentication', {
             method: 'POST',
             body: new URLSearchParams({
                 username: username,
-                password: password,
-                'remember-me': rememberMe,
-                _csrf: csrf,
+                password: password
             }),
         }).then(response => {
             if (response.ok) {

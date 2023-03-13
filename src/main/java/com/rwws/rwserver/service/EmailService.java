@@ -69,7 +69,6 @@ public class EmailService {
             helper.setSubject(request.getSubject());
             helper.setText(writer.toString(), true);
             javaMailSender.send(mailMessage);
-            log.info("Verification code {} email sent successfully", code);
             var key = EMAIL.format(request.getTo());
             redisCacheManager.set(key, Duration.ofSeconds(CODE_EXPIRATION));
         } catch (Exception e) {

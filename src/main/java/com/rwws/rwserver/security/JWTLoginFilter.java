@@ -2,7 +2,10 @@ package com.rwws.rwserver.security;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rwws.rwserver.domain.security.User;
+import com.rwws.rwserver.domain.security.UserPrincipal;
 import com.rwws.rwserver.manager.JWTManager;
+import com.rwws.rwserver.mapper.UserMapper;
 import lombok.Data;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
@@ -10,11 +13,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Instant;
 
 import static org.zalando.problem.Status.*;
 
@@ -25,14 +30,17 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JWTManager jwtManager;
     private final ObjectMapper objectMapper;
+    private final UserMapper userMapper;
 
 
     public JWTLoginFilter(JWTManager jwtManager,
-                          ObjectMapper objectMapper) {
+                          ObjectMapper objectMapper,
+                          UserMapper userMapper) {
         super(LOGIN_URI);
         this.jwtManager = jwtManager;
         this.objectMapper = objectMapper;
-        setAuthenticationSuccessHandler((request, response, authentication) -> response.setStatus(OK.getStatusCode()));
+        this.userMapper = userMapper;
+        setAuthenticationSuccessHandler(successHandler());
         setAuthenticationFailureHandler((request, response, exception) -> response.setStatus(UNAUTHORIZED.getStatusCode()));
     }
 
@@ -79,6 +87,17 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     @Override
     public void afterPropertiesSet() {
+    }
+
+    private AuthenticationSuccessHandler successHandler() {
+        return (request, response, authentication) -> {
+            response.setStatus(OK.getStatusCode());
+            var principal = (UserPrincipal) authentication.getPrincipal();
+            var updateUser = new User();
+            updateUser.setId(principal.getId());
+            updateUser.setLastLoginTime(Instant.now());
+            userMapper.updateById(updateUser);
+        };
     }
 
 
